@@ -191,24 +191,50 @@ At this point you have created in your GitHub account an empty repository called
 `practical3`. We are going to connect it now with our local repository of
 `practical3`. Make sure your CWD is the Git repository `practical3` in your local disk
 and follow the instructions in the GitHub page under the title **"... or push an existing
-repository from the command line"**, by typing (**REPLACE** `fcbstudent` by your
-own username):
+repository from the command line"**. They consist of the following three steps:
 
-```
-$ git remote add origin https://github.com/fcbstudent/practical3.git
-$ git branch -M main
-$ git push -u origin main
-Enumerating objects: 4, done.
-Counting objects: 100% (4/4), done.
-Delta compression using up to 4 threads
-Compressing objects: 100% (4/4), done.
-Writing objects: 100% (4/4), 368.54 KiB | 4.24 MiB/s, done.
-Total 4 (delta 1), reused 0 (delta 0)
-remote: Resolving deltas: 100% (1/1), done.
-To https://github.com/fcbstudent/practical3.git
- * [new branch]      main -> main
-Branch 'main' set up to track remote branch 'main' from 'origin'.
-```
+  1. Create a new connection to your remote GitHub repo with `git remote add`,
+     **replacing** the `fcbstudent` word below by your own username):
+    ```
+    $ git remote add origin https://github.com/fcbstudent/practical3.git
+    ```
+    You can check whether this connection has been successfully established by
+    using the `-v` option with the `remote` command:
+    ```
+    $ git remote -v
+    origin	https://github.com/fcbstudent/practical3.git (fetch)
+    origin	https://github.com/fcbstudent/practical3.git (push)
+    ```
+    If you see **no** URL connection specified to the right of the word `origin`, then
+    you have probably misspecified the repo URL. Before you try to add again the
+    remote connection, you should remove this _bogus_ one by typing:
+    ```
+    $ git remote remove origin
+    ```
+  2. Create the default branch under the name `main`:
+    ``` 
+    $ git branch -M main
+    ```
+  3. Push the contents of the current branch in the local Git repo to the
+    upstream main branch in the GitHub repo:
+    ```
+    $ git push -u origin main
+    Enumerating objects: 4, done.
+    Counting objects: 100% (4/4), done.
+    Delta compression using up to 4 threads
+    Compressing objects: 100% (4/4), done.
+    Writing objects: 100% (4/4), 368.54 KiB | 4.24 MiB/s, done.
+    Total 4 (delta 1), reused 0 (delta 0)
+    remote: Resolving deltas: 100% (1/1), done.
+    To https://github.com/fcbstudent/practical3.git
+     * [new branch]      main -> main
+    Branch 'main' set up to track remote branch 'main' from 'origin'.
+    ```
+    If in this step instead of the previous output you get an error, then
+    probably the connection to the remote GitHub repo has not been correctly
+    established. Got back to step 1, use the given command to remove this
+    current connection and try to add it again, making sure that the GitHub
+    URL is correct.
 
 Click now on the link to the private repo on the top-left of your GitHub account
 to go to the page of the repo and check that the files have been successfully
