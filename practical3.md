@@ -12,6 +12,7 @@ The learning objectives for this practical are:
  * Setting up a Git repo in our local disk.
  * Update your local repository.
  * Upload your local repository to GitHub.
+ * Cloning a GitHub repo into a local repository.
 
 # Setup and background
 
@@ -96,8 +97,8 @@ $ ls -lhaF
 drwxr-xr-x  5 robert  staff   160B Oct  7 17:49 ./
 drwxr-xr-x  7 robert  staff   224B Oct  7 17:49 ../
 drwxr-xr-x  9 robert  staff   288B Oct  7 17:49 .git/
--rw-r--r--@ 1 robert  staff   1.4M Oct  7 17:49 comarques_setmanal.csv
--rw-r--r--  1 robert  staff   800K Oct  7 17:49 comarques_setmanal_general.csv
+-rw-r--r--@ 1 robert  staff   1.4M Oct  7 17:49 catalunya_setmanal.csv
+-rw-r--r--  1 robert  staff   800K Oct  7 17:49 comarques_setmanal.csv
 ```
 
 Checkout the status of your Git repo using `git status`:
@@ -110,8 +111,8 @@ No commits yet
 
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
+	catalunya_setmanal.csv
 	comarques_setmanal.csv
-	comarques_setmanal_general.csv
 
 nothing added to commit but untracked files present (use "git add" to track)
 ```
@@ -128,8 +129,8 @@ No commits yet
 
 Changes to be committed:
   (use "git rm --cached <file>..." to unstage)
+	new file:   catalunya_setmanal.csv
 	new file:   comarques_setmanal.csv
-	new file:   comarques_setmanal_general.csv
 ```
 
 Finally, commit the staged files by doing:
@@ -138,8 +139,8 @@ Finally, commit the staged files by doing:
 $ git commit -m 'First commit.'
 [master (root-commit) d35b756] First commit.
  2 files changed, 26965 insertions(+)
+ create mode 100644 catalunya_setmanal.csv
  create mode 100644 comarques_setmanal.csv
- create mode 100644 comarques_setmanal_general.csv
 ```
 
 Check out that the status doesn't have pending commits anymore:
@@ -227,3 +228,23 @@ The GitHub page for the repo has several tabs, where the one called "Settings"
 can be used to configure some of the other tabs and perform actions such as
 switching the visibility from private to public or delete entirely this repository
 from GitHub.
+
+# Cloning a GitHub repo into a local repository.
+
+The reverse operation of uploading a local repo to a GitHub is **cloning**
+a GitHub repo into a local repo. To _clone_ a GitHub repo into your local
+filesystem you use the Git command `clone` as follows:
+
+```
+$ git clone https://github.com/USERNAME/REPONAME
+```
+where `USERNAME` is the username owner of the repo you want to _clone_, while
+`REPONAME` is the name of the repository you want to clone. When you _clone_
+a GitHub repo, you are copying into your local filesystem all the files, version
+history and branches from the GitHub repo. If you are the owner of the GitHub
+repo or you have permissions to write into that GitHub repo, you can synchronize
+your commits with the GitHub repo by using the Git command `push` as follows:
+
+```
+$ git push
+```
