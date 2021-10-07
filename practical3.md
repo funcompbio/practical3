@@ -209,6 +209,7 @@ command to undo that change will be different. Here we cover a few cases:
     $ ls
     catalunya_setmanal.csv comarques_setmanal.csv
     ```
+    &nbsp;&nbsp;
     where `filename` is the name of the file you deleted.
   2. After the file was deleted, that deletion was staged and commited
     to the Git database and no other commits were introduced. Let's illustrate
@@ -238,6 +239,7 @@ command to undo that change will be different. Here we cover a few cases:
     &nbsp;&nbsp;
     no changes added to commit (use "git add" and/or "git commit -a")
     ```
+    &nbsp;&nbsp;
     This command reverts the commit leaving the deletion as an
     unstaged change and therefore, you should still apply the option 1
     above to recover the file.
@@ -267,8 +269,10 @@ command to undo that change will be different. Here we cover a few cases:
      1 file changed, 10 insertions(+)
      create mode 100644 catalunya_setmanal_head.csv
     ```
+    &nbsp;&nbsp;
     At this point we should look up the commited change that removed
     the file:
+    &nbsp;&nbsp;
     ```
     $ git log -- comarques_setmanal.csv
     commit 1233328491018e328b7c132fdce0b2e84ce5228d
@@ -283,7 +287,9 @@ command to undo that change will be different. Here we cover a few cases:
     &nbsp;&nbsp;
     First commit.
     ```
+    &nbsp;&nbsp;
     Then, check out the file from the commit that deleted it as follows:
+    &nbsp;&nbsp;
     ```
     $ git checkout 1233328491018e328b7c132fdce0b2e84ce5228d~1 -- comarques_setmanal.csv
     $ ls
@@ -307,9 +313,11 @@ command to undo that change will be different. Here we cover a few cases:
     On branch main
     nothing to commit, working tree clean
     ```
+    &nbsp;&nbsp;
     If you examine the whole history of this example, you should find
     the commits corresponding to the deletion, the addition of a new file
     and the recovery of the deleted file:
+    &nbsp;&nbsp;
     ```
     $ git log
     commit ed150284bb5753d5814224b287f88c32f4fa1b3b (HEAD -> main)
@@ -358,28 +366,37 @@ repository from the command line"**. They consist of the following three steps:
 
   1. Create a new connection to your remote GitHub repo with `git remote add`,
      **replacing** the `fcbstudent` word below by your own username):
+    &nbsp;&nbsp;
     ```
     $ git remote add origin https://github.com/fcbstudent/practical3.git
     ```
+    &nbsp;&nbsp;
     You can check whether this connection has been successfully established by
     using the `-v` option with the `remote` command:
+    &nbsp;&nbsp;
     ```
     $ git remote -v
     origin	https://github.com/fcbstudent/practical3.git (fetch)
     origin	https://github.com/fcbstudent/practical3.git (push)
     ```
+    &nbsp;&nbsp;
     If you see **no** URL connection specified to the right of the word `origin`, then
     you have probably misspecified the repo URL. Before you try to add again the
     remote connection, you should remove this _bogus_ one by typing:
+    &nbsp;&nbsp;
     ```
     $ git remote remove origin
     ```
+    &nbsp;&nbsp;
   2. Create the default branch under the name `main`:
+    &nbsp;&nbsp;
     ``` 
     $ git branch -M main
     ```
+    &nbsp;&nbsp;
   3. Push the contents of the current branch in the local Git repo to the
     upstream main branch in the GitHub repo:
+    &nbsp;&nbsp;
     ```
     $ git push -u origin main
     Enumerating objects: 4, done.
@@ -393,6 +410,7 @@ repository from the command line"**. They consist of the following three steps:
      * [new branch]      main -> main
     Branch 'main' set up to track remote branch 'main' from 'origin'.
     ```
+    &nbsp;&nbsp;
     If in this step instead of the previous output you get an error, then
     probably the connection to the remote GitHub repo has not been correctly
     established. Got back to step 1, use the given command to remove this
