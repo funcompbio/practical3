@@ -85,8 +85,9 @@ where `command` is one of Git's commands such as `add` or `checkout`.
 # Setting up a Git repo in our local disk
 
 Here we are going to set up our first Git repo in our local disk. First make sure you have
-a directory called `practical3` with the two CSV files `cataluna_setmanal.csv' and
-'comarques_setmanal.csv'. Now, enter the `practical3` directory and type the following:
+a directory called `practical3` with the two CSV files `cataluna_setmanal.csv`
+and `comarques_setmanal.csv`. Now, enter the `practical3` directory and type
+the following:
 
 ```
 $ git init
@@ -107,7 +108,7 @@ Checkout the status of your Git repo using `git status`:
 
 ```
 $ git status
-On branch master
+On branch main
 
 No commits yet
 
@@ -125,7 +126,7 @@ Stage those files by using the `git add` command and check the status again:
 ```
 $ git add .
 $ git status
-On branch master
+On branch main
 
 No commits yet
 
@@ -139,7 +140,7 @@ Finally, commit the staged files by doing:
 
 ```
 $ git commit -m 'First commit.'
-[master (root-commit) d35b756] First commit.
+[main (root-commit) d35b756] First commit.
  2 files changed, 26965 insertions(+)
  create mode 100644 catalunya_setmanal.csv
  create mode 100644 comarques_setmanal.csv
@@ -149,7 +150,7 @@ Check out that the status doesn't have pending commits anymore:
 
 ```
 $ git status
-On branch master
+On branch main
 nothing to commit, working tree clean
 ```
 
@@ -157,7 +158,7 @@ Examine this first change with `git log`:
 
 ```
 $ git log
-commit d35b7567e8ddef0534303737e0b8b3a51b4c0ec6 (HEAD -> master)
+commit d35b7567e8ddef0534303737e0b8b3a51b4c0ec6 (HEAD -> main)
 Author: Robert Castelo <robert.castelo@upf.edu>
 Date:   Thu Oct 7 17:55:50 2020 +0200
 
@@ -173,6 +174,168 @@ population that lives in geriatric residences (see practical 2). Once you have
 generated that file, check out the status of the repo. You should notice that
 Git has detected a new file that is untracked. Stage this untracked file and
 commit the change to the repo.
+
+# Undo changes
+
+One of the great things about working with a version-control system is the
+ability to undo changes, reverting to some previous state of your files. This
+functionality, however, only applies to changes that have been staged and
+committed to the Git database. For this reason, it is important and useful to
+commit your changes often. Depending on the kind change you want to undo, the
+command to undo that change will be different. Here we cover a few cases:
+
+* **Restore a deleted file.** There are several options depending on the
+  moment at which you deleted the file:
+
+  1. The file was deleted before or after the deletion was staged, but
+    the deletion was not commited to the Git database. We illustrate here
+    this case by removing the file `comarques_setmanal.csv` and immediately
+    restoring it again:
+    ```
+    $ rm comarques_setmanal.csv
+    $ ls
+    catalunya_setmanal.csv
+    $ git status
+    On branch main
+    Changes not staged for commit:
+      (use "git add/rm <file>..." to update what will be committed)
+      (use "git restore <file>..." to discard changes in working directory)
+      deleted:    comarques_setmanal.csv
+    &nbsp;&nbsp;
+    no changes added to commit (use "git add" and/or "git commit -a")
+    &nbsp;&nbsp;
+    $ git checkout HEAD comarques_setmanal.csv
+    Updated 1 path from 87afcdd
+    $ ls
+    catalunya_setmanal.csv comarques_setmanal.csv
+    ```
+    where `filename` is the name of the file you deleted.
+  2. After the file was deleted, that deletion was staged and commited
+    to the Git database and no other commits were introduced. Let's illustrate
+    it again removing the file `comarques_setmanal.csv`, but this time staging
+    and commiting that change:
+    ```
+    $ rm comarques_setmanal.csv
+    $ git add .
+    $ git commit -m 'Removed comarques_setmanal.csv'
+    [main 6f624bc] Removed comarques_setmanal.csv
+     1 file changed, 48637 deletions(-)
+     delete mode 100644 comarques_setmanal.csv
+    $ ls
+    catalunya_setmanal.csv
+    $ git status
+    On branch main
+    nothing to commit, working tree clean
+    $ git reset HEAD~1
+    Unstaged changes after reset:
+    D comarques_setmanal.csv
+    $ git status
+    On branch main
+    Changes not staged for commit:
+      (use "git add/rm <file>..." to update what will be committed)
+      (use "git restore <file>..." to discard changes in working directory)
+      deleted:    comarques_setmanal.csv
+    &nbsp;&nbsp;
+    no changes added to commit (use "git add" and/or "git commit -a")
+    ```
+    This command reverts the commit leaving the deletion as an
+    unstaged change and therefore, you should still apply the option 1
+    above to recover the file.
+  3. After the file was deleted, that deletion was staged and commited
+    to the Git database and afterwards other commits were also introduced.
+    Let's illustrate it again removing the file `comarques_setmanal.csv`, but
+    this time staging and commiting that change and staging and commiting
+    other further changes:
+    ```
+    $ rm comarques_setmanal.csv
+    $ git add .
+    $ git commit -m 'Removed comarques_setmanal.csv'
+    [main 6f624bc] Removed comarques_setmanal.csv
+     1 file changed, 48637 deletions(-)
+     delete mode 100644 comarques_setmanal.csv
+    $ ls
+    catalunya_setmanal.csv
+    $ git status
+    On branch main
+    nothing to commit, working tree clean
+    $ head catalunya_setmanal.csv > catalunya_setmanal_head.csv
+    $ ls
+    $ catalunya_setmanal.csv  catalunya_setmanal_head.csv
+    $ git add .
+    $ git commit -m 'Added head of catalunya_setmanal.csv'
+    [main 3dae07e] Added head of catalunya_setmanal.csv
+     1 file changed, 10 insertions(+)
+     create mode 100644 catalunya_setmanal_head.csv
+    ```
+    At this point we should look up the commited change that removed
+    the file:
+    ```
+    $ git log -- comarques_setmanal.csv
+    commit 1233328491018e328b7c132fdce0b2e84ce5228d
+    Author: [rcastelo] <[robert.castelo@upf.edu]>
+    Date:   Thu Oct 7 19:11:11 2021 +0200
+    &nbsp;&nbsp;
+    Removed comarques_setmanal.csv
+    &nbsp;&nbsp;
+    commit 6ad741d9bb260144bad2be3f533ab7ade47111ab
+    Author: [rcastelo] <[robert.castelo@upf.edu]>
+    Date:   Thu Oct 7 18:30:43 2021 +0200
+    &nbsp;&nbsp;
+    First commit.
+    ```
+    Then, check out the file from the commit that deleted it as follows:
+    ```
+    $ git checkout 1233328491018e328b7c132fdce0b2e84ce5228d~1 -- comarques_setmanal.csv
+    $ ls
+    catalunya_setmanal.csv  catalunya_setmanal_head.csv  comarques_setmanal.csv
+    ```
+    Finally, you should stage and commit the recovered file since it will
+    appear to Git as a new file:
+    ```
+    $ git status
+    On branch main
+    Changes to be committed:
+      (use "git restore --staged <file>..." to unstage)
+            new file:   comarques_setmanal.csv
+    &nbsp&nbsp;
+    $ git add .
+    $ git commit -m 'Added back comarques_setmanal.csv'
+    [main ed15028] Added back comarques_setmanal.csv
+     1 file changed, 48637 insertions(+)
+     create mode 100644 comarques_setmanal.csv
+    $ git status
+    On branch main
+    nothing to commit, working tree clean
+    ```
+    If you examine the whole history of this example, you should find
+    the commits corresponding to the deletion, the addition of a new file
+    and the recovery of the deleted file:
+    ```
+    $ git log
+    commit ed150284bb5753d5814224b287f88c32f4fa1b3b (HEAD -> main)
+    Author: [rcastelo] <[robert.castelo@upf.edu]>
+    Date:   Thu Oct 7 19:21:21 2021 +0200
+
+        Added back comarques_setmanal.csv
+
+    commit 3dae07e590198c545e0f7a96fa54fe75d3454adf
+    Author: [rcastelo] <[robert.castelo@upf.edu]>
+    Date:   Thu Oct 7 19:12:15 2021 +0200
+
+        Added head of catalunya_setmanal.csv
+
+    commit 1233328491018e328b7c132fdce0b2e84ce5228d
+    Author: [rcastelo] <[robert.castelo@upf.edu]>
+    Date:   Thu Oct 7 19:11:11 2021 +0200
+
+        Removed comarques_setmanal.csv
+
+    commit 6ad741d9bb260144bad2be3f533ab7ade47111ab
+    Author: [rcastelo] <[robert.castelo@upf.edu]>
+    Date:   Thu Oct 7 18:30:43 2021 +0200
+
+        First commit.
+    ```
 
 # Upload your local repository to GitHub
 
