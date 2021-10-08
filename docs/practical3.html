@@ -1,11 +1,12 @@
 <h1 id="objectives">Objectives</h1>
 <p>The learning objectives for this practical are:</p>
 <ul>
-<li>Setting up Git</li>
+<li>Setting up Git.</li>
 <li>Setting up a Git repo in our local disk.</li>
-<li>Update your local repository.</li>
-<li>Upload your local repository to GitHub.</li>
-<li>Cloning a GitHub repo into a local repository.</li>
+<li>Update your local Git repo.</li>
+<li>Undo changes in your local Git repo.</li>
+<li>Upload your local Git repo to GitHub.</li>
+<li>Cloning a GitHub repo into a local Git repo.</li>
 <li>Push changes to GitHub.</li>
 <li>Pull changes from GitHub.</li>
 </ul>
@@ -34,7 +35,7 @@ $ git help command
 $ git command --help</code></pre>
 <p>where <code>command</code> is one of Git’s commands such as <code>add</code> or <code>checkout</code>.</p>
 <h1 id="setting-up-a-git-repo-in-our-local-disk">Setting up a Git repo in our local disk</h1>
-<p>Here we are going to set up our first Git repo in our local disk. First make sure you have a directory called <code>practical3</code> with the two CSV files <code>cataluna_setmanal.csv</code> and <code>comarques_setmanal.csv</code>. Now, enter the <code>practical3</code> directory and type the following:</p>
+<p>Here we are going to set up our first Git repository, commonly referred to with the shorthand Git <em>repo</em>, in our local disk. First make sure you have a directory called <code>practical3</code> with the two CSV files <code>cataluna_setmanal.csv</code> and <code>comarques_setmanal.csv</code>. Now, enter the <code>practical3</code> directory and type the following:</p>
 <pre><code>$ git init</code></pre>
 <p>Verify that the <code>.git</code> database directory has been created by typing (you should see a directory called <code>.git/</code> next to your CSV files):</p>
 <pre><code>$ ls -lhaF
@@ -83,9 +84,9 @@ Author: Robert Castelo &lt;robert.castelo@upf.edu&gt;
 Date:   Thu Oct 7 17:55:50 2020 +0200
 
     First commit.</code></pre>
-<h1 id="update-your-local-repository">Update your local repository</h1>
-<p>Here we want to practise how to update the local repository, keeping track of the changes with Git. First, create a file called <code>catalunya_setmanal_geriatric.csv</code> with the subset of the data in <code>catalunya_setmanal.csv</code> corresponding to the population that lives in geriatric residences (see practical 2). Once you have generated that file, check out the status of the repo. You should notice that Git has detected a new file that is untracked. Stage this untracked file and commit the change to the repo.</p>
-<h1 id="undo-changes">Undo changes</h1>
+<h1 id="update-your-local-git-repo">Update your local Git repo</h1>
+<p>Here we want to practise how to update the local Git repo, keeping track of the changes with Git. First, create a file called <code>catalunya_setmanal_geriatric.csv</code> with the subset of the data in <code>catalunya_setmanal.csv</code> corresponding to the population that lives in geriatric residences (see practical 2). Once you have generated that file, check out the status of the repo. You should notice that Git has detected a new file that is untracked. Stage this untracked file and commit the change to the repo.</p>
+<h1 id="undo-changes-in-your-local-git-repo">Undo changes in your local Git repo</h1>
 <p>One of the great things about working with a version-control system is the ability to undo changes, reverting to some previous state of your files. This functionality, however, only applies to changes that have been staged and committed to the Git database. For this reason, it is important and useful to commit your changes often. Depending on the kind change you want to undo, the command to undo that change will be different. Here we cover a few cases:</p>
 <ul>
 <li><p><strong>Restore a deleted file.</strong> There are several options depending on the moment in which you deleted the file:</p>
@@ -343,13 +344,13 @@ Date:   Thu Oct 7 18:30:43 2021 +0200
     First commit.</code></pre></li>
 </ol></li>
 </ul>
-<h1 id="upload-your-local-repository-to-github">Upload your local repository to GitHub</h1>
-<p>Here we want to create in GitHub a remote repository connected to our local one. We illustrate such process using the previous local Git repository, but assuming we have delete the file <code>catalunya_setmanal_head.csv</code>.</p>
+<h1 id="upload-your-local-git-repo-to-github">Upload your local Git repo to GitHub</h1>
+<p>Here we want to create in GitHub a remote Git repo connected to our local one. We illustrate such process using the previous local Git repo, but assuming we have delete the file <code>catalunya_setmanal_head.csv</code>.</p>
 <p>To get started, log into your GitHub account, click on the plus sign on the top-right and select “New repository” from the pull-down menu.</p>
 <p><img src="./GHnewrepo.png" /></p>
 <p>In the next page, type <code>practical3</code> in the textbox under <code>Repository name</code>, select <code>Private</code> for the type of repository and press the button <code>Create repository</code>.</p>
 <p><img src="./GHnewrepo2.png" /></p>
-<p>At this point you have created in your GitHub account an empty repository called <code>practical3</code>. We are going to connect it now with our local repository of <code>practical3</code>. Make sure your CWD is the Git repository <code>practical3</code> in your local disk and follow the instructions in the GitHub page under the title <strong>“… or push an existing repository from the command line”</strong>. They consist of the following three steps:</p>
+<p>At this point you have created in your GitHub account an empty Git repo called <code>practical3</code>. We are going to connect it now with our local Git repo of <code>practical3</code>. Make sure your CWD is the Git repo <code>practical3</code> in your local disk and follow the instructions in the GitHub page under the title <strong>“… or push an existing repository from the command line”</strong>. They consist of the following three steps:</p>
 <ol type="1">
 <li><p>Create a new connection to your remote GitHub repo with <code>git remote add</code>, <strong>replacing</strong> the <code>fcbstudent</code> word below by your own username):</p>
 <pre><code>$ git remote add origin https://github.com/fcbstudent/practical3.git</code></pre>
@@ -383,15 +384,15 @@ On branch main
 Your branch is up to date with &#39;origin/main&#39;.
 
 nothing to commit, working tree clean</code></pre>
-<p>The GitHub page for the repo has several tabs, where the one called “Settings” can be used to configure some of the other tabs and perform actions such as switching the visibility from private to public or delete entirely this repository from GitHub.</p>
-<h1 id="cloning-a-github-repo-into-a-local-repository">Cloning a GitHub repo into a local repository</h1>
+<p>The GitHub page for the repo has several tabs, where the one called “Settings” can be used to configure some of the other tabs and perform actions such as switching the visibility from private to public or delete entirely this Git repo from GitHub.</p>
+<h1 id="cloning-a-github-repo-into-a-local-git-repo">Cloning a GitHub repo into a local Git repo</h1>
 <p>The reverse operation of uploading a local repo to a GitHub is <strong>cloning</strong> a GitHub repo into a local repo. When you <em>clone</em> a GitHub repo, you are copying into your local filesystem all the files, version history and branches from the GitHub repo.</p>
 <p>To <em>clone</em> a <strong>public</strong> GitHub repo into your local filesystem you use the Git command <code>clone</code> as follows:</p>
 <pre><code>$ git clone https://github.com/USERNAME/REPONAME [DIRECTORY]</code></pre>
-<p>where <code>USERNAME</code> is the username owner of the repo you want to <em>clone</em>, while <code>REPONAME</code> is the name of the repository you want to clone. <strong>Optionally</strong>, you can give a directory name in <code>DIRECTORY</code> to clone the repo under a directory called differently to the <code>REPONAME</code>.</p>
+<p>where <code>USERNAME</code> is the username owner of the repo you want to <em>clone</em>, while <code>REPONAME</code> is the name of the Git repo you want to clone. <strong>Optionally</strong>, you can give a directory name in <code>DIRECTORY</code> to clone the repo under a directory called differently to the <code>REPONAME</code>.</p>
 <p>To <em>clone</em> a <strong>private</strong> GitHub repo into your local filesystem you use the Git command <code>clone</code> as follows:</p>
 <pre><code>$ git clone https://USERNAME:PASSWORD@github.com/USERNAME/REPONAME [DIRECTORY]</code></pre>
-<p>It’s important to know whether you are cloning a public or a private repo, because if you use the syntax for cloning a public repo that in fact is private, then Git will give you and error saying that it cannot find the repository.</p>
+<p>It’s important to know whether you are cloning a public or a private Git repo, because if you use the syntax for cloning a public repo that in fact is private, then Git will give you and error saying that it cannot find the Git repo.</p>
 <p>For instance, go to your home directory and clone your recently created GitHub repo <code>practical3</code> into a different name such as <code>practical3copy</code> by doing:</p>
 <pre><code>$ cd
 $ git clone https://USERNAME:PASSWORD@github.com/USERNAME/practical3 practical3copy</code></pre>

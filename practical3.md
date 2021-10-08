@@ -8,11 +8,12 @@ permalink: /practical3/
 
 The learning objectives for this practical are:
 
- * Setting up Git
+ * Setting up Git.
  * Setting up a Git repo in our local disk.
- * Update your local repository.
- * Upload your local repository to GitHub.
- * Cloning a GitHub repo into a local repository.
+ * Update your local Git repo.
+ * Undo changes in your local Git repo.
+ * Upload your local Git repo to GitHub.
+ * Cloning a GitHub repo into a local Git repo.
  * Push changes to GitHub.
  * Pull changes from GitHub.
 
@@ -84,8 +85,9 @@ where `command` is one of Git's commands such as `add` or `checkout`.
 
 # Setting up a Git repo in our local disk
 
-Here we are going to set up our first Git repo in our local disk. First make sure you have
-a directory called `practical3` with the two CSV files `cataluna_setmanal.csv`
+Here we are going to set up our first Git repository, commonly referred to with
+the shorthand Git _repo_, in our local disk. First make sure you have a
+directory called `practical3` with the two CSV files `cataluna_setmanal.csv`
 and `comarques_setmanal.csv`. Now, enter the `practical3` directory and type
 the following:
 
@@ -165,9 +167,9 @@ Date:   Thu Oct 7 17:55:50 2020 +0200
     First commit.
 ```
 
-# Update your local repository
+# Update your local Git repo
 
-Here we want to practise how to update the local repository, keeping track of the
+Here we want to practise how to update the local Git repo, keeping track of the
 changes with Git. First, create a file called `catalunya_setmanal_geriatric.csv`
 with the subset of the data in `catalunya_setmanal.csv` corresponding to the
 population that lives in geriatric residences (see practical 2). Once you have
@@ -175,7 +177,7 @@ generated that file, check out the status of the repo. You should notice that
 Git has detected a new file that is untracked. Stage this untracked file and
 commit the change to the repo.
 
-# Undo changes
+# Undo changes in your local Git repo
 
 One of the great things about working with a version-control system is the
 ability to undo changes, reverting to some previous state of your files. This
@@ -523,10 +525,10 @@ command to undo that change will be different. Here we cover a few cases:
             First commit.
         ```
 
-# Upload your local repository to GitHub
+# Upload your local Git repo to GitHub
 
-Here we want to create in GitHub a remote repository connected to our local one.
-We illustrate such process using the previous local Git repository, but assuming
+Here we want to create in GitHub a remote Git repo connected to our local one.
+We illustrate such process using the previous local Git repo, but assuming
 we have delete the file `catalunya_setmanal_head.csv`.
 
 To get started, log into your GitHub account, click on the plus sign on the
@@ -539,11 +541,12 @@ In the next page, type `practical3` in the textbox under `Repository name`, sele
 
 ![](./GHnewrepo2.png)
 
-At this point you have created in your GitHub account an empty repository called
-`practical3`. We are going to connect it now with our local repository of
-`practical3`. Make sure your CWD is the Git repository `practical3` in your local disk
-and follow the instructions in the GitHub page under the title **"... or push an existing
-repository from the command line"**. They consist of the following three steps:
+At this point you have created in your GitHub account an empty Git repo called
+`practical3`. We are going to connect it now with our local Git repo of
+`practical3`. Make sure your CWD is the Git repo `practical3` in your local disk
+and follow the instructions in the GitHub page under the title
+**"... or push an existing repository from the command line"**. They consist of
+the following three steps:
 
   1. Create a new connection to your remote GitHub repo with `git remote add`,
     **replacing** the `fcbstudent` word below by your own username):
@@ -614,10 +617,10 @@ nothing to commit, working tree clean
 
 The GitHub page for the repo has several tabs, where the one called "Settings"
 can be used to configure some of the other tabs and perform actions such as
-switching the visibility from private to public or delete entirely this repository
-from GitHub.
+switching the visibility from private to public or delete entirely this Git
+repo from GitHub.
 
-# Cloning a GitHub repo into a local repository
+# Cloning a GitHub repo into a local Git repo
 
 The reverse operation of uploading a local repo to a GitHub is **cloning**
 a GitHub repo into a local repo. When you _clone_ a GitHub repo, you are copying
@@ -630,7 +633,7 @@ command `clone` as follows:
 $ git clone https://github.com/USERNAME/REPONAME [DIRECTORY]
 ```
 where `USERNAME` is the username owner of the repo you want to _clone_, while
-`REPONAME` is the name of the repository you want to clone. **Optionally**, you can
+`REPONAME` is the name of the Git repo you want to clone. **Optionally**, you can
 give a directory name in `DIRECTORY` to clone the repo under a directory called
 differently to the `REPONAME`.
 
@@ -640,9 +643,9 @@ command `clone` as follows:
 $ git clone https://USERNAME:PASSWORD@github.com/USERNAME/REPONAME [DIRECTORY]
 ```
 
-It's important to know whether you are cloning a public or a private repo, because
-if you use the syntax for cloning a public repo that in fact is private, then
-Git will give you and error saying that it cannot find the repository.
+It's important to know whether you are cloning a public or a private Git repo,
+because if you use the syntax for cloning a public repo that in fact is private,
+then Git will give you and error saying that it cannot find the Git repo.
 
 For instance, go to your home directory and clone your recently created GitHub
 repo `practical3` into a different name such as `practical3copy` by doing:
