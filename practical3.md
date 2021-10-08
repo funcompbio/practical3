@@ -195,7 +195,7 @@ command to undo that change will be different. Here we cover a few cases:
         ```
         $ rm comarques_setmanal.csv
         $ ls
-        catalunya_setmanal.csv
+        catalunya_setmanal.csv  catalunya_setmanal_geriatric.csv
         $ git status
         On branch main
         Changes not staged for commit:
@@ -205,12 +205,11 @@ command to undo that change will be different. Here we cover a few cases:
 
         no changes added to commit (use "git add" and/or "git commit -a")
 
-        $ git checkout HEAD comarques_setmanal.csv
+        $ git checkout HEAD comarques_setmanal.csv ## <-- RESTORING GIT COMMAND
         Updated 1 path from 87afcdd
         $ ls
         catalunya_setmanal.csv comarques_setmanal.csv
         ```
-    where `filename` is the name of the file you deleted.
 
   2. After the file was deleted, that deletion was staged and commited
     to the Git database and no other commits were introduced. Let's illustrate
@@ -225,11 +224,11 @@ command to undo that change will be different. Here we cover a few cases:
          1 file changed, 48637 deletions(-)
          delete mode 100644 comarques_setmanal.csv
         $ ls
-        catalunya_setmanal.csv
+        catalunya_setmanal.csv  catalunya_setmanal_geriatric.csv
         $ git status
         On branch main
         nothing to commit, working tree clean
-        $ git reset HEAD~1
+        $ git reset HEAD~1                         ## <-- RESTORING GIT COMMAND
         Unstaged changes after reset:
         D comarques_setmanal.csv
         $ git status
@@ -241,15 +240,15 @@ command to undo that change will be different. Here we cover a few cases:
 
         no changes added to commit (use "git add" and/or "git commit -a")
         ```
-    This command reverts the commit leaving the deletion as an
-    unstaged change and therefore, you should still apply the option 1
-    above to recover the file.
+    The Git command `git reset HEAD~1` reverts the deletion commit leaving it
+    as an unstaged change and therefore, you should still apply the previous
+    option 1 above to recover the file.
 
   3. After the file was deleted, that deletion was staged and commited
     to the Git database and afterwards other commits were also introduced.
     Let's illustrate it again removing the file `comarques_setmanal.csv`, but
     this time staging and commiting that change and staging and commiting
-    other further changes:
+    one further change:
 
         ```
         $ rm comarques_setmanal.csv
@@ -259,21 +258,24 @@ command to undo that change will be different. Here we cover a few cases:
          1 file changed, 48637 deletions(-)
          delete mode 100644 comarques_setmanal.csv
         $ ls
-        catalunya_setmanal.csv
+        catalunya_setmanal.csv  catalunya_setmanal_geriatric.csv
         $ git status
         On branch main
         nothing to commit, working tree clean
         $ head catalunya_setmanal.csv > catalunya_setmanal_head.csv
         $ ls
-        $ catalunya_setmanal.csv  catalunya_setmanal_head.csv
+        catalunya_setmanal.csv            catalunya_setmanal_head.csv
+        catalunya_setmanal_geriatric.csv
         $ git add .
-        $ git commit -m 'Added head of catalunya_setmanal.csv'
-        [main 3dae07e] Added head of catalunya_setmanal.csv
+        $ git commit -m 'Added catalunya_setmanal_head.csv'
+        [main 3dae07e] Added catalunya_setmanal_head.csv
          1 file changed, 10 insertions(+)
          create mode 100644 catalunya_setmanal_head.csv
         ```
-    At this point we should look up the commited change that removed
-    the file:
+    At this point we should look up the
+    [_commit hash_](https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection)
+    of the change that removed the file, using the command
+    `git log -- removedfilename`:
 
         ```
         $ git log -- comarques_setmanal.csv
@@ -286,15 +288,17 @@ command to undo that change will be different. Here we cover a few cases:
         commit 6ad741d9bb260144bad2be3f533ab7ade47111ab
         Author: [rcastelo] <[robert.castelo@upf.edu]>
         Date:   Thu Oct 7 18:30:43 2021 +0200
-        &nbsp;&nbsp;
+
         First commit.
         ```
-    Then, check out the file from the commit that deleted it as follows:
+    Then, check out the file from the commit that deleted it using the
+    command `git checkout commithash~1 -- removedfilename`:
 
         ```
         $ git checkout 1233328491018e328b7c132fdce0b2e84ce5228d~1 -- comarques_setmanal.csv
         $ ls
-        catalunya_setmanal.csv  catalunya_setmanal_head.csv  comarques_setmanal.csv
+        catalunya_setmanal.csv            catalunya_setmanal_head.csv
+        catalunya_setmanal_geriatric.csv  comarques_setmanal.csv
         ```
     Finally, you should stage and commit the recovered file since it will
     appear to Git as a new file:
@@ -331,7 +335,7 @@ command to undo that change will be different. Here we cover a few cases:
         Author: [rcastelo] <[robert.castelo@upf.edu]>
         Date:   Thu Oct 7 19:12:15 2021 +0200
 
-            Added head of catalunya_setmanal.csv
+            Added catalunya_setmanal_head.csv
 
         commit 1233328491018e328b7c132fdce0b2e84ce5228d
         Author: [rcastelo] <[robert.castelo@upf.edu]>
@@ -367,51 +371,46 @@ repository from the command line"**. They consist of the following three steps:
 
   1. Create a new connection to your remote GitHub repo with `git remote add`,
      **replacing** the `fcbstudent` word below by your own username):
-    &nbsp;&nbsp;
-    ```
-    $ git remote add origin https://github.com/fcbstudent/practical3.git
-    ```
-    &nbsp;&nbsp;
+
+        ```
+        $ git remote add origin https://github.com/fcbstudent/practical3.git
+        ```
     You can check whether this connection has been successfully established by
     using the `-v` option with the `remote` command:
-    &nbsp;&nbsp;
-    ```
-    $ git remote -v
-    origin	https://github.com/fcbstudent/practical3.git (fetch)
-    origin	https://github.com/fcbstudent/practical3.git (push)
-    ```
-    &nbsp;&nbsp;
-    If you see **no** URL connection specified to the right of the word `origin`, then
-    you have probably misspecified the repo URL. Before you try to add again the
-    remote connection, you should remove this _bogus_ one by typing:
-    &nbsp;&nbsp;
-    ```
-    $ git remote remove origin
-    ```
-    &nbsp;&nbsp;
+
+        ```
+        $ git remote -v
+        origin	https://github.com/fcbstudent/practical3.git (fetch)
+        origin	https://github.com/fcbstudent/practical3.git (push)
+        ```
+    If you see **no** URL connection specified to the right of the word `origin`,
+    then you have probably misspecified the repo URL. Before you try to add
+    again the remote connection, you should remove this _bogus_ one by typing:
+
+        ```
+        $ git remote remove origin
+        ```
   2. Create the default branch under the name `main`:
-    &nbsp;&nbsp;
-    ``` 
-    $ git branch -M main
-    ```
-    &nbsp;&nbsp;
+
+        ``` 
+        $ git branch -M main
+        ```
   3. Push the contents of the current branch in the local Git repo to the
     upstream main branch in the GitHub repo:
-    &nbsp;&nbsp;
-    ```
-    $ git push -u origin main
-    Enumerating objects: 4, done.
-    Counting objects: 100% (4/4), done.
-    Delta compression using up to 4 threads
-    Compressing objects: 100% (4/4), done.
-    Writing objects: 100% (4/4), 368.54 KiB | 4.24 MiB/s, done.
-    Total 4 (delta 1), reused 0 (delta 0)
-    remote: Resolving deltas: 100% (1/1), done.
-    To https://github.com/fcbstudent/practical3.git
-     * [new branch]      main -> main
-    Branch 'main' set up to track remote branch 'main' from 'origin'.
-    ```
-    &nbsp;&nbsp;
+
+        ```
+        $ git push -u origin main
+        Enumerating objects: 4, done.
+        Counting objects: 100% (4/4), done.
+        Delta compression using up to 4 threads
+        Compressing objects: 100% (4/4), done.
+        Writing objects: 100% (4/4), 368.54 KiB | 4.24 MiB/s, done.
+        Total 4 (delta 1), reused 0 (delta 0)
+        remote: Resolving deltas: 100% (1/1), done.
+        To https://github.com/fcbstudent/practical3.git
+         * [new branch]      main -> main
+        Branch 'main' set up to track remote branch 'main' from 'origin'.
+        ```
     If in this step instead of the previous output you get an error, then
     probably the connection to the remote GitHub repo has not been correctly
     established. Got back to step 1, use the given command to remove this
