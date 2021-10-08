@@ -93,7 +93,7 @@ Date:   Thu Oct 7 17:55:50 2020 +0200
 <li><p>The file was deleted before or after the deletion was staged, but the deletion was not commited to the Git database. We illustrate here this case by removing the file <code>comarques_setmanal.csv</code> and immediately restoring it again:</p>
 <pre><code>$ rm comarques_setmanal.csv
 $ ls
-catalunya_setmanal.csv
+catalunya_setmanal.csv  catalunya_setmanal_geriatric.csv
 $ git status
 On branch main
 Changes not staged for commit:
@@ -103,11 +103,10 @@ Changes not staged for commit:
 
 no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
 
-$ git checkout HEAD comarques_setmanal.csv
+$ git checkout HEAD comarques_setmanal.csv ## &lt;-- RESTORING GIT COMMAND
 Updated 1 path from 87afcdd
 $ ls
-catalunya_setmanal.csv comarques_setmanal.csv</code></pre>
-<p>where <code>filename</code> is the name of the file you deleted.</p></li>
+catalunya_setmanal.csv comarques_setmanal.csv</code></pre></li>
 <li><p>After the file was deleted, that deletion was staged and commited to the Git database and no other commits were introduced. Let’s illustrate it again removing the file <code>comarques_setmanal.csv</code>, but this time staging and commiting that change:</p>
 <pre><code>$ rm comarques_setmanal.csv
 $ git add .
@@ -116,11 +115,11 @@ $ git commit -m &#39;Removed comarques_setmanal.csv&#39;
  1 file changed, 48637 deletions(-)
  delete mode 100644 comarques_setmanal.csv
 $ ls
-catalunya_setmanal.csv
+catalunya_setmanal.csv  catalunya_setmanal_geriatric.csv
 $ git status
 On branch main
 nothing to commit, working tree clean
-$ git reset HEAD~1
+$ git reset HEAD~1                         ## &lt;-- RESTORING GIT COMMAND
 Unstaged changes after reset:
 D comarques_setmanal.csv
 $ git status
@@ -131,8 +130,8 @@ Changes not staged for commit:
   deleted:    comarques_setmanal.csv
 
 no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)</code></pre>
-<p>This command reverts the commit leaving the deletion as an unstaged change and therefore, you should still apply the option 1 above to recover the file.</p></li>
-<li><p>After the file was deleted, that deletion was staged and commited to the Git database and afterwards other commits were also introduced. Let’s illustrate it again removing the file <code>comarques_setmanal.csv</code>, but this time staging and commiting that change and staging and commiting other further changes:</p>
+<p>The Git command <code>git reset HEAD~1</code> reverts the deletion commit leaving it as an unstaged change and therefore, you should still apply the previous option 1 above to recover the file.</p></li>
+<li><p>After the file was deleted, that deletion was staged and commited to the Git database and afterwards other commits were also introduced. Let’s illustrate it again removing the file <code>comarques_setmanal.csv</code>, but this time staging and commiting that change and staging and commiting one further change:</p>
 <pre><code>$ rm comarques_setmanal.csv
 $ git add .
 $ git commit -m &#39;Removed comarques_setmanal.csv&#39;
@@ -140,19 +139,20 @@ $ git commit -m &#39;Removed comarques_setmanal.csv&#39;
  1 file changed, 48637 deletions(-)
  delete mode 100644 comarques_setmanal.csv
 $ ls
-catalunya_setmanal.csv
+catalunya_setmanal.csv  catalunya_setmanal_geriatric.csv
 $ git status
 On branch main
 nothing to commit, working tree clean
 $ head catalunya_setmanal.csv &gt; catalunya_setmanal_head.csv
 $ ls
-$ catalunya_setmanal.csv  catalunya_setmanal_head.csv
+catalunya_setmanal.csv            catalunya_setmanal_head.csv
+catalunya_setmanal_geriatric.csv
 $ git add .
-$ git commit -m &#39;Added head of catalunya_setmanal.csv&#39;
-[main 3dae07e] Added head of catalunya_setmanal.csv
+$ git commit -m &#39;Added catalunya_setmanal_head.csv&#39;
+[main 3dae07e] Added catalunya_setmanal_head.csv
  1 file changed, 10 insertions(+)
  create mode 100644 catalunya_setmanal_head.csv</code></pre>
-<p>At this point we should look up the commited change that removed the file:</p>
+<p>At this point we should look up the <a href="https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection"><em>commit hash</em></a> of the change that removed the file, using the command <code>git log -- removedfilename</code>:</p>
 <pre><code>$ git log -- comarques_setmanal.csv
 commit 1233328491018e328b7c132fdce0b2e84ce5228d
 Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
@@ -163,12 +163,13 @@ Removed comarques_setmanal.csv
 commit 6ad741d9bb260144bad2be3f533ab7ade47111ab
 Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
 Date:   Thu Oct 7 18:30:43 2021 +0200
-&amp;nbsp;&amp;nbsp;
+
 First commit.</code></pre>
-<p>Then, check out the file from the commit that deleted it as follows:</p>
+<p>Then, check out the file from the commit that deleted it using the command <code>git checkout commithash~1 -- removedfilename</code>:</p>
 <pre><code>$ git checkout 1233328491018e328b7c132fdce0b2e84ce5228d~1 -- comarques_setmanal.csv
 $ ls
-catalunya_setmanal.csv  catalunya_setmanal_head.csv  comarques_setmanal.csv</code></pre>
+catalunya_setmanal.csv            catalunya_setmanal_head.csv
+catalunya_setmanal_geriatric.csv  comarques_setmanal.csv</code></pre>
 <p>Finally, you should stage and commit the recovered file since it will appear to Git as a new file:</p>
 <pre><code>$ git status
 On branch main
@@ -196,7 +197,7 @@ commit 3dae07e590198c545e0f7a96fa54fe75d3454adf
 Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
 Date:   Thu Oct 7 19:12:15 2021 +0200
 
-    Added head of catalunya_setmanal.csv
+    Added catalunya_setmanal_head.csv
 
 commit 1233328491018e328b7c132fdce0b2e84ce5228d
 Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
@@ -218,9 +219,36 @@ Date:   Thu Oct 7 18:30:43 2021 +0200
 <p><img src="./GHnewrepo2.png" /></p>
 <p>At this point you have created in your GitHub account an empty repository called <code>practical3</code>. We are going to connect it now with our local repository of <code>practical3</code>. Make sure your CWD is the Git repository <code>practical3</code> in your local disk and follow the instructions in the GitHub page under the title <strong>“… or push an existing repository from the command line”</strong>. They consist of the following three steps:</p>
 <ol type="1">
-<li>Create a new connection to your remote GitHub repo with <code>git remote add</code>, <strong>replacing</strong> the <code>fcbstudent</code> word below by your own username):    <code>$ git remote add origin https://github.com/fcbstudent/practical3.git</code>    You can check whether this connection has been successfully established by using the <code>-v</code> option with the <code>remote</code> command:    <code>$ git remote -v     origin  https://github.com/fcbstudent/practical3.git (fetch)     origin  https://github.com/fcbstudent/practical3.git (push)</code>    If you see <strong>no</strong> URL connection specified to the right of the word <code>origin</code>, then you have probably misspecified the repo URL. Before you try to add again the remote connection, you should remove this <em>bogus</em> one by typing:    <code>$ git remote remove origin</code>   </li>
-<li>Create the default branch under the name <code>main</code>:    <code>$ git branch -M main</code>   </li>
-<li>Push the contents of the current branch in the local Git repo to the upstream main branch in the GitHub repo:    <code>$ git push -u origin main     Enumerating objects: 4, done.     Counting objects: 100% (4/4), done.     Delta compression using up to 4 threads     Compressing objects: 100% (4/4), done.     Writing objects: 100% (4/4), 368.54 KiB | 4.24 MiB/s, done.     Total 4 (delta 1), reused 0 (delta 0)     remote: Resolving deltas: 100% (1/1), done.     To https://github.com/fcbstudent/practical3.git      * [new branch]      main -&gt; main     Branch 'main' set up to track remote branch 'main' from 'origin'.</code>    If in this step instead of the previous output you get an error, then probably the connection to the remote GitHub repo has not been correctly established. Got back to step 1, use the given command to remove this current connection and try to add it again, making sure that the GitHub URL is correct.</li>
+<li><p>Create a new connection to your remote GitHub repo with <code>git remote add</code>, <strong>replacing</strong> the <code>fcbstudent</code> word below by your own username):</p>
+<pre><code>$ git remote add origin https://github.com/fcbstudent/practical3.git</code></pre>
+<pre><code>You can check whether this connection has been successfully established by
+using the `-v` option with the `remote` command:</code></pre>
+<pre><code>$ git remote -v
+origin  https://github.com/fcbstudent/practical3.git (fetch)
+origin  https://github.com/fcbstudent/practical3.git (push)</code></pre>
+<pre><code>If you see **no** URL connection specified to the right of the word `origin`,
+then you have probably misspecified the repo URL. Before you try to add
+again the remote connection, you should remove this _bogus_ one by typing:</code></pre>
+<pre><code>$ git remote remove origin</code></pre></li>
+<li><p>Create the default branch under the name <code>main</code>:</p>
+<pre><code>$ git branch -M main</code></pre></li>
+<li><p>Push the contents of the current branch in the local Git repo to the upstream main branch in the GitHub repo:</p>
+<pre><code>$ git push -u origin main
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 368.54 KiB | 4.24 MiB/s, done.
+Total 4 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), done.
+To https://github.com/fcbstudent/practical3.git
+ * [new branch]      main -&gt; main
+Branch &#39;main&#39; set up to track remote branch &#39;main&#39; from &#39;origin&#39;.</code></pre>
+<pre><code>If in this step instead of the previous output you get an error, then
+probably the connection to the remote GitHub repo has not been correctly
+established. Got back to step 1, use the given command to remove this
+current connection and try to add it again, making sure that the GitHub
+URL is correct.</code></pre></li>
 </ol>
 <p>Click now on the link to the private repo on the top-left of your GitHub account to go to the page of the repo and check that the files have been successfully uploaded to GitHub.</p>
 <p><img src="./GHnewrepo3.png" /></p>
