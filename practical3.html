@@ -84,11 +84,11 @@ Date:   Thu Oct 7 17:55:50 2020 +0200
 
     First commit.</code></pre>
 <h1 id="update-your-local-repository">Update your local repository</h1>
-<p>Here we want to practise how to update the local repository, keeping track of the changes with Git. First, create a file called <code>catalunya_setmanal_geriatric.csv</code> with the subset of the data in <code>catalunay_setmanal.csv</code> corresponding to the population that lives in geriatric residences (see practical 2). Once you have generated that file, check out the status of the repo. You should notice that Git has detected a new file that is untracked. Stage this untracked file and commit the change to the repo.</p>
+<p>Here we want to practise how to update the local repository, keeping track of the changes with Git. First, create a file called <code>catalunya_setmanal_geriatric.csv</code> with the subset of the data in <code>catalunya_setmanal.csv</code> corresponding to the population that lives in geriatric residences (see practical 2). Once you have generated that file, check out the status of the repo. You should notice that Git has detected a new file that is untracked. Stage this untracked file and commit the change to the repo.</p>
 <h1 id="undo-changes">Undo changes</h1>
 <p>One of the great things about working with a version-control system is the ability to undo changes, reverting to some previous state of your files. This functionality, however, only applies to changes that have been staged and committed to the Git database. For this reason, it is important and useful to commit your changes often. Depending on the kind change you want to undo, the command to undo that change will be different. Here we cover a few cases:</p>
 <ul>
-<li><p><strong>Restore a deleted file.</strong> There are several options depending on the moment at which you deleted the file:</p>
+<li><p><strong>Restore a deleted file.</strong> There are several options depending on the moment in which you deleted the file:</p>
 <ol type="1">
 <li><p>The file was deleted before or after the deletion was staged, but the deletion was not commited to the Git database. We illustrate here this case by removing the file <code>comarques_setmanal.csv</code> and immediately restoring it again:</p>
 <pre><code>$ rm comarques_setmanal.csv
@@ -165,12 +165,12 @@ Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
 Date:   Thu Oct 7 18:30:43 2021 +0200
 
 First commit.</code></pre>
-<p>Then, check out the file from the commit that deleted it using the command <code>git checkout commithash~1 -- removedfilename</code>:</p>
+<p>Then, check out the file from the commit before the one that deleted it using the command <code>git checkout commithash~1 -- removedfilename</code>:</p>
 <pre><code>$ git checkout 1233328491018e328b7c132fdce0b2e84ce5228d~1 -- comarques_setmanal.csv
 $ ls
 catalunya_setmanal.csv            catalunya_setmanal_head.csv
 catalunya_setmanal_geriatric.csv  comarques_setmanal.csv</code></pre>
-<p>Finally, you should stage and commit the recovered file since it will appear to Git as a new file:</p>
+<p>Here the characters <code>~1</code> at the end of the commit hash indicate Git to go exactly one commit before the given commit hash. Finally, you should stage and commit the recovered file since it will appear to Git as a new file:</p>
 <pre><code>$ git status
 On branch main
 Changes to be committed:
@@ -204,6 +204,137 @@ Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
 Date:   Thu Oct 7 19:11:11 2021 +0200
 
     Removed comarques_setmanal.csv
+
+commit 10bf64c16b91ea309bbca3e27a8a1a439f3c47d4
+Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
+Date:   Thu Oct 7 18:35:44 2021 +0200
+
+    Added catalunya_setmanal_geriatric.csv
+
+commit 6ad741d9bb260144bad2be3f533ab7ade47111ab
+Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
+Date:   Thu Oct 7 18:30:43 2021 +0200
+
+    First commit.</code></pre></li>
+</ol></li>
+<li><p><strong>Restore a specific version of a file.</strong> There are several options depending on the state of the change you want to revert.</p>
+<ol type="1">
+<li><p>The modified file has not been staged and commited to the Git database. We illustrate here this case by adding the last 10 lines from the file <code>catalunya_setmanal.csv</code> to the end of the file <code>catalunya_setmanal_head.csv</code>:</p>
+<pre><code>$ tail catalunya_setmanal.csv &gt;&gt; catalunya_setmanal_head.csv
+$ wc -l catalunya_setmanal_head.csv
+20 catalunya_setmanal_head.csv
+$ git status
+On branch main
+Changes not staged for commit:
+  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git restore &lt;file&gt;...&quot; to discard changes in working directory)
+  modified:   catalunya_setmanal_head.csv
+
+no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
+$ git checkout catalunya_setmanal_head.csv ## &lt;-- RESTORING COMMAND
+Updated 1 path from the index
+$ wc -l catalunya_setmanal_head.csv
+10 catalunya_setmanal_head.csv
+$ git status
+On branch main
+nothing to commit, working tree clean</code></pre></li>
+<li><p>The modified file has been staged, but not commited to the Git database. We illustrate this case with the same modification as the previous one.</p>
+<pre><code>$ tail catalunya_setmanal.csv &gt;&gt; catalunya_setmanal_head.csv
+$ wc -l catalunya_setmanal_head.csv
+20 catalunya_setmanal_head.csv
+$ git add .
+$ git status
+On branch main
+Changes to be committed:
+  (use &quot;git restore --staged &lt;file&gt;...&quot; to unstage)
+        modified:   catalunya_setmanal_head.csv
+$ git restore --staged catalunya_setmanal_head.csv ## &lt;-- RESTORING COMMAND
+$ wc -l catalunya_setmanal_head.csv
+20 catalunya_setmanal_head.csv
+$ git status
+On branch main
+Changes not staged for commit:
+  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git restore &lt;file&gt;...&quot; to discard changes in working directory)
+  modified:   catalunya_setmanal_head.csv
+
+no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)</code></pre>
+<p>Note that the command <code>git restore --staged filename</code> unstages the file, but the modifications remain. Therefore, if you want to revert those modifications, you should follow the previous option 1.</p></li>
+<li><p>The modified file has been staged and commited to the Git database. We illustrate this case with the same modification as the previous ones.</p>
+<pre><code>$ tail catalunya_setmanal.csv &gt;&gt; catalunya_setmanal_head.csv
+$ git add .
+$ git commit -m &#39;Modified catalunya_setmanal_head.csv&#39;
+ 1 file changed, 10 insertions(+)
+$ git status
+On branch main
+nothing to commit, working tree clean</code></pre>
+<p>In this case, however, we should look up the <a href="https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection"><em>commit hash</em></a> of the change that modified the file, using the command <code>git log --follow -- modifiedfilename</code>:</p>
+<pre><code>$ git log --follow -- catalunya_setmanal_head.csv
+commit 0621dcc7a7642ca264227808217bb2cbd2248158 (HEAD -&gt; main)
+Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
+Date:   Fri Oct 8 16:52:29 2021 +0200
+
+    Modified catalunya_setmanal_head.csv
+
+commit 3dae07e590198c545e0f7a96fa54fe75d3454adf
+Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
+Date:   Thu Oct 7 19:12:15 2021 +0200
+
+    Added head of catalunya_setmanal.csv</code></pre>
+<p>Then, we can finally revert the modified file to the revision before the modification as follows:</p>
+<pre><code>$ git restore --source 0621dcc7a7642ca264227808217bb2cbd2248158~1 catalunya_setmanal_head.csv
+$ wc -l catalunya_setmanal_head.csv
+10 catalunya_setmanal_head.csv</code></pre>
+<p>Here the characters <code>~1</code> at the end of the commit hash indicate Git to go exactly one commit before the given commit hash. Note that now the file has again 10 lines, corresponding in this example to its state before the modification. However, you should stage and commit this file because the restored version appears to Git as a new modification:</p>
+<pre><code>$ git status
+On branch main
+Changes not staged for commit:
+  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git restore &lt;file&gt;...&quot; to discard changes in working directory)
+  modified:   catalunya_setmanal_head.csv
+
+no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
+$ git add .
+$ git commit -m &#39;Restored previous version of catalunya_setmanal_head.csv&#39;
+[main f37ad38] Restored previous version of catalunya_setmanal_head.csv
+1 file changed, 10 deletions(-)</code></pre>
+<p>If you examine the whole history of this example, you should find the commits corresponding to the modification and the addition of the file corresponding to its version before that modification:</p>
+<pre><code>$ git log
+commit f37ad38fceaedd478aec1d41de37b55e0e4612a7
+Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
+Date:   Fri Oct 8 17:12:48 2021 +0200
+
+    Restored previous version of catalunya_setmanal_head.csv
+
+commit 0621dcc7a7642ca264227808217bb2cbd2248158
+Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
+Date:   Fri Oct 8 16:52:29 2021 +0200
+
+    Modified catalunya_setmanal_head.csv
+
+commit ed150284bb5753d5814224b287f88c32f4fa1b3b (HEAD -&gt; main)
+Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
+Date:   Thu Oct 7 19:21:21 2021 +0200
+
+    Added back comarques_setmanal.csv
+
+commit 3dae07e590198c545e0f7a96fa54fe75d3454adf
+Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
+Date:   Thu Oct 7 19:12:15 2021 +0200
+
+    Added catalunya_setmanal_head.csv
+
+commit 1233328491018e328b7c132fdce0b2e84ce5228d
+Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
+Date:   Thu Oct 7 19:11:11 2021 +0200
+
+    Removed comarques_setmanal.csv
+
+commit 10bf64c16b91ea309bbca3e27a8a1a439f3c47d4
+Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
+Date:   Thu Oct 7 18:35:44 2021 +0200
+
+    Added catalunya_setmanal_geriatric.csv
 
 commit 6ad741d9bb260144bad2be3f533ab7ade47111ab
 Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
