@@ -169,7 +169,7 @@ Date:   Thu Oct 7 17:55:50 2020 +0200
 
 Here we want to practise how to update the local repository, keeping track of the
 changes with Git. First, create a file called `catalunya_setmanal_geriatric.csv`
-with the subset of the data in `catalunay_setmanal.csv` corresponding to the
+with the subset of the data in `catalunya_setmanal.csv` corresponding to the
 population that lives in geriatric residences (see practical 2). Once you have
 generated that file, check out the status of the repo. You should notice that
 Git has detected a new file that is untracked. Stage this untracked file and
@@ -185,7 +185,7 @@ commit your changes often. Depending on the kind change you want to undo, the
 command to undo that change will be different. Here we cover a few cases:
 
 * **Restore a deleted file.** There are several options depending on the
-  moment at which you deleted the file:
+  moment in which you deleted the file:
 
   1. The file was deleted before or after the deletion was staged, but
     the deletion was not commited to the Git database. We illustrate here
@@ -291,8 +291,8 @@ command to undo that change will be different. Here we cover a few cases:
 
         First commit.
         ```
-    Then, check out the file from the commit that deleted it using the
-    command `git checkout commithash~1 -- removedfilename`:
+    Then, check out the file from the commit before the one that deleted it
+    using the command `git checkout commithash~1 -- removedfilename`:
 
         ```
         $ git checkout 1233328491018e328b7c132fdce0b2e84ce5228d~1 -- comarques_setmanal.csv
@@ -300,8 +300,10 @@ command to undo that change will be different. Here we cover a few cases:
         catalunya_setmanal.csv            catalunya_setmanal_head.csv
         catalunya_setmanal_geriatric.csv  comarques_setmanal.csv
         ```
-    Finally, you should stage and commit the recovered file since it will
-    appear to Git as a new file:
+    Here the characters `~1` at the end of the commit hash indicate Git to
+    go exactly one commit before the given commit hash. Finally, you should
+    stage and commit the recovered file since it will appear to Git as a new
+    file:
 
         ```
         $ git status
@@ -342,6 +344,177 @@ command to undo that change will be different. Here we cover a few cases:
         Date:   Thu Oct 7 19:11:11 2021 +0200
 
             Removed comarques_setmanal.csv
+
+        commit 10bf64c16b91ea309bbca3e27a8a1a439f3c47d4
+        Author: [rcastelo] <[robert.castelo@upf.edu]>
+        Date:   Thu Oct 7 18:35:44 2021 +0200
+
+            Added catalunya_setmanal_geriatric.csv
+
+        commit 6ad741d9bb260144bad2be3f533ab7ade47111ab
+        Author: [rcastelo] <[robert.castelo@upf.edu]>
+        Date:   Thu Oct 7 18:30:43 2021 +0200
+
+            First commit.
+        ```
+
+* **Restore a specific version of a file.** There are several options depending
+  on the state of the change you want to revert.
+
+  1. The modified file has not been staged and commited to the Git database. We
+    illustrate here this case by adding the last 10 lines from the file
+    `catalunya_setmanal.csv` to the end of the file
+    `catalunya_setmanal_head.csv`:
+
+        ```
+        $ tail catalunya_setmanal.csv >> catalunya_setmanal_head.csv
+        $ wc -l catalunya_setmanal_head.csv
+        20 catalunya_setmanal_head.csv
+        $ git status
+        On branch main
+        Changes not staged for commit:
+          (use "git add <file>..." to update what will be committed)
+          (use "git restore <file>..." to discard changes in working directory)
+          modified:   catalunya_setmanal_head.csv
+
+        no changes added to commit (use "git add" and/or "git commit -a")
+        $ git checkout catalunya_setmanal_head.csv ## <-- RESTORING COMMAND
+        Updated 1 path from the index
+        $ wc -l catalunya_setmanal_head.csv
+        10 catalunya_setmanal_head.csv
+        $ git status
+        On branch main
+        nothing to commit, working tree clean
+        ```
+  2. The modified file has been staged, but not commited to the Git database.
+    We illustrate this case with the same modification as the previous one.
+
+        ```
+        $ tail catalunya_setmanal.csv >> catalunya_setmanal_head.csv
+        $ wc -l catalunya_setmanal_head.csv
+        20 catalunya_setmanal_head.csv
+        $ git add .
+        $ git status
+        On branch main
+        Changes to be committed:
+          (use "git restore --staged <file>..." to unstage)
+                modified:   catalunya_setmanal_head.csv
+        $ git restore --staged catalunya_setmanal_head.csv ## <-- RESTORING COMMAND
+        $ wc -l catalunya_setmanal_head.csv
+        20 catalunya_setmanal_head.csv
+        $ git status
+        On branch main
+        Changes not staged for commit:
+          (use "git add <file>..." to update what will be committed)
+          (use "git restore <file>..." to discard changes in working directory)
+          modified:   catalunya_setmanal_head.csv
+
+        no changes added to commit (use "git add" and/or "git commit -a")
+        ```
+    Note that the command `git restore --staged filename` unstages the file,
+    but the modifications remain. Therefore, if you want to revert those
+    modifications, you should follow the previous option 1.
+
+  3. The modified file has been staged and commited to the Git database.
+    We illustrate this case with the same modification as the previous ones.
+
+        ```
+        $ tail catalunya_setmanal.csv >> catalunya_setmanal_head.csv
+        $ git add .
+        $ git commit -m 'Modified catalunya_setmanal_head.csv'
+         1 file changed, 10 insertions(+)
+        $ git status
+        On branch main
+        nothing to commit, working tree clean
+        ```
+    In this case, however, we should look up the
+    [_commit hash_](https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection)
+    of the change that modified the file, using the command
+    `git log --follow -- modifiedfilename`:
+
+        ```
+        $ git log --follow -- catalunya_setmanal_head.csv
+        commit 0621dcc7a7642ca264227808217bb2cbd2248158 (HEAD -> main)
+        Author: [rcastelo] <[robert.castelo@upf.edu]>
+        Date:   Fri Oct 8 16:52:29 2021 +0200
+
+            Modified catalunya_setmanal_head.csv
+
+        commit 3dae07e590198c545e0f7a96fa54fe75d3454adf
+        Author: [rcastelo] <[robert.castelo@upf.edu]>
+        Date:   Thu Oct 7 19:12:15 2021 +0200
+
+            Added head of catalunya_setmanal.csv
+        ```
+    Then, we can finally revert the modified file to the revision
+    before the modification as follows:
+
+        ```
+        $ git restore --source 0621dcc7a7642ca264227808217bb2cbd2248158~1 catalunya_setmanal_head.csv
+        $ wc -l catalunya_setmanal_head.csv
+        10 catalunya_setmanal_head.csv
+        ```
+    Here the characters `~1` at the end of the commit hash indicate Git to
+    go exactly one commit before the given commit hash. Note that now the
+    file has again 10 lines, corresponding in this example to its state before
+    the modification. However, you should stage and commit this file because
+    the restored version appears to Git as a new modification:
+
+        ```
+        $ git status
+        On branch main
+        Changes not staged for commit:
+          (use "git add <file>..." to update what will be committed)
+          (use "git restore <file>..." to discard changes in working directory)
+          modified:   catalunya_setmanal_head.csv
+
+        no changes added to commit (use "git add" and/or "git commit -a")
+        $ git add .
+        $ git commit -m 'Restored previous version of catalunya_setmanal_head.csv'
+        [main f37ad38] Restored previous version of catalunya_setmanal_head.csv
+        1 file changed, 10 deletions(-)
+        ```
+    If you examine the whole history of this example, you should find
+    the commits corresponding to the modification and the addition of the
+    file corresponding to its version before that modification:
+
+        ```
+        $ git log
+        commit f37ad38fceaedd478aec1d41de37b55e0e4612a7
+        Author: [rcastelo] <[robert.castelo@upf.edu]>
+        Date:   Fri Oct 8 17:12:48 2021 +0200
+
+            Restored previous version of catalunya_setmanal_head.csv
+
+        commit 0621dcc7a7642ca264227808217bb2cbd2248158
+        Author: [rcastelo] <[robert.castelo@upf.edu]>
+        Date:   Fri Oct 8 16:52:29 2021 +0200
+
+            Modified catalunya_setmanal_head.csv
+
+        commit ed150284bb5753d5814224b287f88c32f4fa1b3b (HEAD -> main)
+        Author: [rcastelo] <[robert.castelo@upf.edu]>
+        Date:   Thu Oct 7 19:21:21 2021 +0200
+
+            Added back comarques_setmanal.csv
+
+        commit 3dae07e590198c545e0f7a96fa54fe75d3454adf
+        Author: [rcastelo] <[robert.castelo@upf.edu]>
+        Date:   Thu Oct 7 19:12:15 2021 +0200
+
+            Added catalunya_setmanal_head.csv
+
+        commit 1233328491018e328b7c132fdce0b2e84ce5228d
+        Author: [rcastelo] <[robert.castelo@upf.edu]>
+        Date:   Thu Oct 7 19:11:11 2021 +0200
+
+            Removed comarques_setmanal.csv
+
+        commit 10bf64c16b91ea309bbca3e27a8a1a439f3c47d4
+        Author: [rcastelo] <[robert.castelo@upf.edu]>
+        Date:   Thu Oct 7 18:35:44 2021 +0200
+
+            Added catalunya_setmanal_geriatric.csv
 
         commit 6ad741d9bb260144bad2be3f533ab7ade47111ab
         Author: [rcastelo] <[robert.castelo@upf.edu]>
