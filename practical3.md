@@ -529,7 +529,7 @@ command to undo that change will be different. Here we cover a few cases:
 
 Here we want to create in GitHub a remote Git repo connected to our local one.
 We illustrate such process using the previous local Git repo, but assuming
-we have delete the file `catalunya_setmanal_head.csv`.
+we have deleted the file `catalunya_setmanal_head.csv`.
 
 To get started, log into your GitHub account, click on the plus sign on the
 top-right and select "New repository" from the pull-down menu.
