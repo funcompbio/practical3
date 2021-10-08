@@ -353,8 +353,11 @@ command to undo that change will be different. Here we cover a few cases:
 # Upload your local repository to GitHub
 
 Here we want to create in GitHub a remote repository connected to our local one.
-Log into your GitHub account. Click on the plus sign on the top-right and select
-"New repository" from the pull-down menu.
+We illustrate such process using the previous local Git repository, but assuming
+we have delete the file `catalunya_setmanal_head.csv`.
+
+To get started, log into your GitHub account, click on the plus sign on the
+top-right and select "New repository" from the pull-down menu.
 
 ![](./GHnewrepo.png)
 
@@ -370,31 +373,33 @@ and follow the instructions in the GitHub page under the title **"... or push an
 repository from the command line"**. They consist of the following three steps:
 
   1. Create a new connection to your remote GitHub repo with `git remote add`,
-     **replacing** the `fcbstudent` word below by your own username):
+    **replacing** the `fcbstudent` word below by your own username):
 
         ```
         $ git remote add origin https://github.com/fcbstudent/practical3.git
         ```
-    You can check whether this connection has been successfully established by
-    using the `-v` option with the `remote` command:
+   You can check whether this connection has been successfully established by
+   using the `-v` option with the `remote` command:
 
         ```
         $ git remote -v
         origin	https://github.com/fcbstudent/practical3.git (fetch)
         origin	https://github.com/fcbstudent/practical3.git (push)
         ```
-    If you see **no** URL connection specified to the right of the word `origin`,
-    then you have probably misspecified the repo URL. Before you try to add
-    again the remote connection, you should remove this _bogus_ one by typing:
+   If you see **no** URL connection specified to the right of the word `origin`,
+   then you have probably misspecified the repo URL. Before you try to add
+   again the remote connection, you should remove this _bogus_ one by typing:
 
         ```
         $ git remote remove origin
         ```
+
   2. Create the default branch under the name `main`:
 
         ``` 
         $ git branch -M main
         ```
+
   3. Push the contents of the current branch in the local Git repo to the
     upstream main branch in the GitHub repo:
 
@@ -411,11 +416,11 @@ repository from the command line"**. They consist of the following three steps:
          * [new branch]      main -> main
         Branch 'main' set up to track remote branch 'main' from 'origin'.
         ```
-    If in this step instead of the previous output you get an error, then
-    probably the connection to the remote GitHub repo has not been correctly
-    established. Got back to step 1, use the given command to remove this
-    current connection and try to add it again, making sure that the GitHub
-    URL is correct.
+   If in this step instead of the previous output you get an error, then
+   probably the connection to the remote GitHub repo has not been correctly
+   established. Got back to step 1, use the given command to remove this
+   current connection and try to add it again, making sure that the GitHub
+   URL is correct.
 
 Click now on the link to the private repo on the top-left of your GitHub account
 to go to the page of the repo and check that the files have been successfully
