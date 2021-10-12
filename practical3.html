@@ -38,36 +38,22 @@ $ git command --help</code></pre>
 <p>where <code>command</code> is one of Git’s commands such as <code>add</code> or <code>checkout</code>.</p>
 <h1 id="setting-up-a-personal-access-token-in-github">Setting up a personal access token in GitHub</h1>
 <p>Since August 2021, GitHub has raised their security standards by separating the way in which we authenticate ourselves with a username and a password into our GitHub profile at <a href="https://github.com">https://github.com</a>, from the way in which we authenticate ourselves to perform Git operations from the Unix command line that affect a remote repo in <a href="https://github.com">https://github.com</a>; see this <a href="https://github.blog/2020-12-15-token-authentication-requirements-for-git-operations">blog post</a> if you want to learn full details on this.</p>
-<p>In summary, in both situations we should use the same username, but with <strong>different</strong> passwords. For accessing our GitHub profile at <a href="https://github.com">https://github.com</a> we will use the password we set when we created our profile, while for performing Git operations from the Unix command line we need to generate another one, which GitHub calls a <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">personal access token</a>, with the following steps:</p>
+<p>In summary, in both situations we should use the same username, but with <strong>different</strong> passwords. For accessing our GitHub profile at <a href="https://github.com">https://github.com</a> we will use the password we set when we created our profile, while for performing Git operations from the Unix command line that affect a remote repo in <a href="https://github.com">https://github.com</a> we need to generate another one, which GitHub calls a <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">personal access token</a>, with the following steps:</p>
 <ol type="1">
 <li><p>Log into your GitHub profile at <a href="https://github.com">https://github.com</a> and go to the <code>Settings</code> option from the pull-down menu of your profile.</p>
-<figure>
-<img src="./ConfAccessToken1.png" alt=":scale 80%" /><figcaption aria-hidden="true">:scale 80%</figcaption>
-</figure></li>
+<p><img src="./ConfAccessToken1.png" /></p></li>
 <li><p>Click on the <code>Developer settings</code> tab located on the left-side menu panel.</p>
-<figure>
-<img src="./ConfAccessToken2.png" alt=":scale 80%" /><figcaption aria-hidden="true">:scale 80%</figcaption>
-</figure></li>
+<p><img src="./ConfAccessToken2.png" /></p></li>
 <li><p>Click on the <code>Personal access token</code> tab located on the left-side menu panel.</p>
-<figure>
-<img src="./ConfAccessToken3.png" alt=":scale 80%" /><figcaption aria-hidden="true">:scale 80%</figcaption>
-</figure></li>
+<p><img src="./ConfAccessToken3.png" /></p></li>
 <li><p>Click on the <code>Generate new token</code> button.</p>
-<figure>
-<img src="./ConfAccessToken4.png" alt=":scale 80%" /><figcaption aria-hidden="true">:scale 80%</figcaption>
-</figure></li>
+<p><img src="./ConfAccessToken4.png" /></p></li>
 <li><p>In the form for generating a new personal access token enter <code>fcb</code> on the <code>Note</code> field, set the <code>Expiration</code> pull-down menu to <code>No expiration</code> and select the checkbox <code>repo</code> among the <code>Select scopes</code> options.</p>
-<figure>
-<img src="./ConfAccessToken5.png" alt=":scale 80%" /><figcaption aria-hidden="true">:scale 80%</figcaption>
-</figure></li>
+<p><img src="./ConfAccessToken5.png" /></p></li>
 <li><p>Click on the button <code>Generate token</code> at the bottom of the page.</p>
-<figure>
-<img src="./ConfAccessToken6.png" alt=":scale 80%" /><figcaption aria-hidden="true">:scale 80%</figcaption>
-</figure></li>
-<li><p>In the new page showing the personal access token, click on the copy icon, or select and copy the token yourself, and store it securely somewhere in your local disk. <strong>This is the password you will have to use</strong> when you perform Git operations from the Unix command line.</p>
-<figure>
-<img src="./ConfAccessToken7.png" alt=":scale 80%" /><figcaption aria-hidden="true">:scale 80%</figcaption>
-</figure></li>
+<p><img src="./ConfAccessToken6.png" /></p></li>
+<li><p>In the new page showing the personal access token, click on the copy icon, or select and copy the token yourself, and store it securely somewhere in your local disk. <strong>This is the password you will have to use</strong> when you perform Git operations from the Unix command line that affect a remote repo in <a href="https://github.com">https://github.com</a>, such as the ones we will see in sections <a href="#upload-your-local-Git-repo-to-GitHub">Upload your local Git repo to GitHub</a></p>
+<p><img src="./ConfAccessToken7.png" /></p></li>
 </ol>
 <h1 id="setting-up-a-git-repo-in-your-local-disk">Setting up a Git repo in your local disk</h1>
 <p>Here we are going to set up our first Git repository, commonly referred to with the shorthand Git <em>repo</em>, in our local disk. First make sure you have a directory called <code>practical3</code> with the two CSV files <code>cataluna_setmanal.csv</code> and <code>comarques_setmanal.csv</code>. Now, enter the <code>practical3</code> directory and type the following:</p>
@@ -151,7 +137,12 @@ remote: Resolving deltas: 100% (1/1), done.
 To https://github.com/fcbstudent/practical3.git
  * [new branch]      main -&gt; main
 Branch &#39;main&#39; set up to track remote branch &#39;main&#39; from &#39;origin&#39;.</code></pre>
-<p>In this step you may be asked for your GitHub username and password. The password cannot be one you use to enter into your GitHub profile, but it should be an access token that you have previously generated (see the previous instructions on <a href="/#Setting-up-a-personal-access-token-in-GitHub">Setting up a personal access token in GitHub</a>). If you enter the wrong password then instead of the previous output you will get the following error: <code>remote: Support for password authentication was removed on August 13, 2021.    Please use a personal access token instead.    remote: Please see https://github.blog/2020-12-15-token-authentication-requirements-for-git-operations/ for more information    fatal: Authentication failed for 'https://github.com/fcbstudent/practical3.git/'</code> In such a case, you should either try again with your access token or, if you have not generate it yet, then go to the previous instructions on <a href="/#Setting-up-a-personal-access-token-in-GitHub">Setting up a personal access token in GitHub</a>). and follow the steps to generate an access token for GitHub. If you think you are using the correct access token, but you still get an error, then probably the connection to the remote GitHub repo has not been correctly established. Got back to step 1, use the given command to remove this current connection and try to add it again, making sure that the GitHub URL is correct.</p></li>
+<p>In this step you may be asked for your GitHub username and password. The password cannot be one you use to enter into your GitHub profile, but it should be an access token that you have previously generated (see the previous instructions on <a href="#setting-up-a-personal-access-token-in-GitHub">Setting up a personal access token in GitHub</a>). If you enter the wrong password then instead of the previous output you will get the following error:</p>
+<pre><code>remote: Support for password authentication was removed on August 13, 2021.
+Please use a personal access token instead.
+remote: Please see https://github.blog/2020-12-15-token-authentication-requirements-for-git-operations/ for more information
+fatal: Authentication failed for &#39;https://github.com/fcbstudent/practical3.git/&#39;</code></pre>
+<p>In such a case, you should either try again with your access token or, if you have not generate it yet, then go to the previous instructions on <a href="#setting-up-a-personal-access-token-in-GitHub">Setting up a personal access token in GitHub</a>). and follow the steps to generate an access token for GitHub. If you think you are using the correct access token, but you still get an error, then probably the connection to the remote GitHub repo has not been correctly established. Got back to step 1, use the given command to remove this current connection and try to add it again, making sure that the GitHub URL is correct.</p></li>
 </ol>
 <p>Click now on the link to the private repo on the top-left of your GitHub account (<code>yourgithubusername/practical3</code>) to go to the page of the repo and check that the files have been successfully uploaded to GitHub.</p>
 <p><img src="./GHnewrepo3.png" /></p>
