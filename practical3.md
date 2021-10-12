@@ -106,43 +106,47 @@ In summary, in both situations we should use the same username, but with
 **different** passwords. For accessing our GitHub profile at
 [https://github.com](https://github.com) we will use the password we set when
 we created our profile, while for performing Git operations from the Unix
-command line we need to generate another one, which GitHub calls a
+command line that affect a remote repo in [https://github.com](https://github.com)
+we need to generate another one, which GitHub calls a
 [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token),
 with the following steps:
 
 1. Log into your GitHub profile at [https://github.com](https://github.com) and
   go to the `Settings` option from the pull-down menu of your profile.
 
-    ![:scale 80%](./ConfAccessToken1.png)
+    ![](./ConfAccessToken1.png)
 
 2. Click on the `Developer settings` tab located on the left-side menu panel.
 
-    ![:scale 80%](./ConfAccessToken2.png)
+    ![](./ConfAccessToken2.png)
 
 3. Click on the `Personal access token` tab located on the left-side menu panel.
 
-    ![:scale 80%](./ConfAccessToken3.png)
+    ![](./ConfAccessToken3.png)
 
 4. Click on the `Generate new token` button.
 
-    ![:scale 80%](./ConfAccessToken4.png)
+    ![](./ConfAccessToken4.png)
 
 5. In the form for generating a new personal access token enter `fcb` on the `Note`
   field, set the `Expiration` pull-down menu to `No expiration` and select the
   checkbox `repo` among the `Select scopes` options.
 
-    ![:scale 80%](./ConfAccessToken5.png)
+    ![](./ConfAccessToken5.png)
 
 6. Click on the button `Generate token` at the bottom of the page.
 
-    ![:scale 80%](./ConfAccessToken6.png)
+    ![](./ConfAccessToken6.png)
 
 7. In the new page showing the personal access token, click on the copy icon,
   or select and copy the token yourself, and store it securely somewhere in your
   local disk. **This is the password you will have to use** when you perform Git
-  operations from the Unix command line.
+  operations from the Unix command line that affect a remote repo in
+  [https://github.com](https://github.com), such as the ones we will see in
+  sections
+  [Upload your local Git repo to GitHub](#upload-your-local-Git-repo-to-GitHub)
 
-    ![:scale 80%](./ConfAccessToken7.png)
+    ![](./ConfAccessToken7.png)
 
 # Setting up a Git repo in your local disk
 
@@ -308,9 +312,10 @@ the following three steps:
    In this step you may be asked for your GitHub username and password. The password cannot
    be one you use to enter into your GitHub profile, but it should be an access token that 
    you have previously generated (see the previous instructions on
-   [Setting up a personal access token in GitHub](/#Setting-up-a-personal-access-token-in-GitHub)).
+   [Setting up a personal access token in GitHub](#setting-up-a-personal-access-token-in-GitHub)).
    If you enter the wrong password then instead of the previous output you will get the
    following error:
+
         ```
         remote: Support for password authentication was removed on August 13, 2021.
         Please use a personal access token instead.
@@ -319,7 +324,7 @@ the following three steps:
         ```
    In such a case, you should either try again with your access token or, if you have not
    generate it yet, then go to the previous instructions on
-   [Setting up a personal access token in GitHub](/#Setting-up-a-personal-access-token-in-GitHub)).
+   [Setting up a personal access token in GitHub](#setting-up-a-personal-access-token-in-GitHub)).
    and follow the steps to generate an access token
    for GitHub. If you think you are using the correct access token, but you still get an
    error, then probably the connection to the remote GitHub repo has not been correctly
