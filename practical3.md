@@ -11,11 +11,11 @@ The learning objectives for this practical are:
  * Setting up Git.
  * Setting up a Git repo in our local disk.
  * Update your local Git repo.
- * Undo changes in your local Git repo.
  * Upload your local Git repo to GitHub.
  * Cloning a GitHub repo into a local Git repo.
  * Push changes to GitHub.
  * Pull changes from GitHub.
+ * Undo changes in your local Git repo.
 
 # Setup and background
 
@@ -58,7 +58,15 @@ $ git config --global user.name "XXXXX YYYY"
 $ git config --global user.email "ZZZZ@WWWW.UUUU"
 ```
 where `XXXXX` is your first name and `YYYYY` is your family name, while
-`ZZZZ@WWWW.UUUU` if you student UPF email address.
+`ZZZZ@WWWW.UUUU` if you student UPF email address. Another handy option is to
+tell Git to store your GitHub credentials into a hidden file
+`~/.git-credentials` to avoid having to enter them each time you do an operation
+that requires them, such as _pushing_ your changes to a remote GitHub repo. To
+set up that option type on the shell
+
+```
+$ git config --global credential.helper store
+```
 
 It may be handy to set up your favorite text editor associated with Git, so that when
 Git requires you to write some text, your favorite text editor is launched. Please check
@@ -82,6 +90,56 @@ $ git help command
 $ git command --help
 ```
 where `command` is one of Git's commands such as `add` or `checkout`.
+
+# Setting up a personal access token in GitHub
+
+Since August 2021, GitHub has raised their security standards by separating the
+way in which we authenticate ourselves with a username and a password into our
+GitHub profile at https://github.com from the way in which we authenticate
+ourselves to perform Git operations from the Unix command line that affect a
+remote repo in https://github.com; see this
+[blog post](https://github.blog/2020-12-15-token-authentication-requirements-for-git-operations)
+if you want to learn full details on this.
+
+In summary, in both situations we should use the same username, but with different
+passwords. For accessing our GitHub profile at https://github.com we will use the
+password we set when we created our profile, while for performing Git operations
+from the Unix command line we need to generate another one, which GitHub calls
+a [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token), with the following steps:
+
+1. Log into your GitHub profile at https://github.com and go to the `Settings`
+  option from the pull-down menu of your profile.
+
+![](./ConfAccessToken1.png)
+
+2. Click on the `Developer settings` tab located on the left-side menu panel.
+
+![](./ConfAccessToken2.png)
+
+3. Click on the `Personal access token` tab located on the left-side menu panel.
+
+![](./ConfAccessToken3.png)
+
+4. Click on the `Generate new token` button.
+
+![](./ConfAccessToken4.png)
+
+5. In the form for generating a new personal access token enter `fcb` on the `Note`
+  field, set the `Expiration` pull-down menu to `No expiration` and select the
+  checkbox `repo` among the `Select scopes` options.
+
+![](./ConfAccessToken5.png)
+
+6. Click on the button `Generate token` at the bottom of the page.
+
+![](./ConfAccessToken6.png)
+
+7. In the new page showing the personal access token, click on the copy icon, or
+  select and copy the token yourself, and store it securely somewhere in your local
+  disk. **This is the password you will have to use** when your perform Git operations
+  from the Unix command line.
+
+![](./ConfAccessToken7.png)
 
 # Setting up a Git repo in our local disk
 
@@ -176,6 +234,277 @@ population that lives in geriatric residences (see practical 2). Once you have
 generated that file, check out the status of the repo. You should notice that
 Git has detected a new file that is untracked. Stage this untracked file and
 commit the change to the repo.
+
+# Upload your local Git repo to GitHub
+
+Here we want to create in GitHub a remote Git repo connected to our local one.
+We illustrate such process using the previous local Git repo.
+
+To get started, log into your GitHub account, click on the plus sign on the
+top-right and select "New repository" from the pull-down menu.
+
+![](./GHnewrepo.png)
+
+In the next page, type `practical3` in the textbox under `Repository name`, select
+`Private` for the type of repository and press the button `Create repository`.
+
+![](./GHnewrepo2.png)
+
+At this point you have created in your GitHub account an empty Git repo called
+`practical3`. We are going to connect it now with our local Git repo of
+`practical3`. Make sure your CWD is the Git repo `practical3` in your local disk
+and follow the instructions in the GitHub page under the title
+**"... or push an existing repository from the command line"**. They consist of
+the following three steps:
+
+  1. Create a new connection to your remote GitHub repo with `git remote add`,
+    **REPLACING** the `fcbstudent` word below **BY YOUR OWN USERNAME**):
+
+        ```
+        $ git remote add origin https://github.com/fcbstudent/practical3.git
+        ```
+   You can check whether this connection has been successfully established by
+   using the `-v` option with the `remote` command:
+
+        ```
+        $ git remote -v
+        origin	https://github.com/fcbstudent/practical3.git (fetch)
+        origin	https://github.com/fcbstudent/practical3.git (push)
+        ```
+   If you see **no** URL connection specified to the right of the word `origin`
+   or if the connection you see is to the `fcbstudent` user instead of your own,
+   then you have misspecified the repo URL. Before you try again to add
+   the correct remote connection, you should remove this _bogus_ one by typing:
+
+        ```
+        $ git remote remove origin
+        ```
+
+  2. Create the default branch under the name `main`:
+
+        ``` 
+        $ git branch -M main
+        ```
+
+  3. Push the contents of the current branch in the local Git repo to the
+    upstream main branch in the GitHub repo:
+
+        ```
+        $ git push -u origin main
+        Enumerating objects: 4, done.
+        Counting objects: 100% (4/4), done.
+        Delta compression using up to 4 threads
+        Compressing objects: 100% (4/4), done.
+        Writing objects: 100% (4/4), 368.54 KiB | 4.24 MiB/s, done.
+        Total 4 (delta 1), reused 0 (delta 0)
+        remote: Resolving deltas: 100% (1/1), done.
+        To https://github.com/fcbstudent/practical3.git
+         * [new branch]      main -> main
+        Branch 'main' set up to track remote branch 'main' from 'origin'.
+        ```
+   In this step you may be asked for your GitHub username and password. The password cannot
+   be one you use to enter into your GitHub profile, but it should be an access token that 
+   you have previously generated (see the previous instructions on
+   [Setting up a personal access token in GitHub](/#Setting-up-a-personal-access-token-in-GitHub)).
+   If you enter the wrong password then instead of the previous output you will get the
+   following error:
+        ```
+        remote: Support for password authentication was removed on August 13, 2021.
+        Please use a personal access token instead.
+        remote: Please see https://github.blog/2020-12-15-token-authentication-requirements-for-git-operations/ for more information
+        fatal: Authentication failed for 'https://github.com/fcbstudent/practical3.git/'
+        ```
+   In such a case, you should either try again with your access token or, if you have not
+   generate it yet, then go to the previous instructions on
+   [Setting up a personal access token in GitHub](/#Setting-up-a-personal-access-token-in-GitHub)).
+   and follow the steps to generate an access token
+   for GitHub. If you think you are using the correct access token, but you still get an
+   error, then probably the connection to the remote GitHub repo has not been correctly
+   established. Got back to step 1, use the given command to remove this current
+   connection and try to add it again, making sure that the GitHub URL is correct.
+
+Click now on the link to the private repo on the top-left of your GitHub account
+(`yourgithubusername/practical3`) to go to the page of the repo and check that
+the files have been successfully uploaded to GitHub.
+
+![](./GHnewrepo3.png)
+
+Check out also that the status of your local repo tells that it is up to date
+with the new remote connection.
+
+```
+$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+```
+
+The GitHub page for the repo has several tabs, where the one called "Settings"
+can be used to configure some of the other tabs and perform actions such as
+switching the visibility from private to public or delete entirely this Git
+repo from GitHub.
+
+# Cloning a GitHub repo into a local Git repo
+
+The reverse operation of uploading a local repo to a GitHub is **cloning**
+a GitHub repo into a local repo. When you _clone_ a GitHub repo, you are copying
+into your local filesystem all the files, version history and branches from the
+GitHub repo.
+
+To _clone_ a **public** GitHub repo into your local filesystem you use the Git
+command `clone` as follows:
+```
+$ git clone https://github.com/USERNAME/REPONAME [DIRECTORY]
+```
+where `USERNAME` is the username owner of the repo you want to _clone_, while
+`REPONAME` is the name of the Git repo you want to clone. **Optionally**, you can
+give a directory name in `DIRECTORY` to clone the repo under a directory called
+differently to the `REPONAME`.
+
+To _clone_ a **private** GitHub repo into your local filesystem you use the Git
+command `clone` as follows:
+```
+$ git clone https://USERNAME:PASSWORD@github.com/USERNAME/REPONAME [DIRECTORY]
+```
+
+It's important to know whether you are cloning a public or a private Git repo,
+because if you use the syntax for cloning a public repo that in fact is private,
+then Git will give you and error saying that it cannot find the Git repo.
+
+For instance, go to your home directory and clone your recently created GitHub
+repo `practical3` into a different name such as `practical3copy` by doing:
+
+```
+$ cd
+$ git clone https://USERNAME:PASSWORD@github.com/USERNAME/practical3 practical3copy
+```
+where you should replace `USERNAME` and `PASSWORD` accordingly.
+
+# Push changes to GitHub 
+
+Here, we are going to see how update the new local copy of our remote GitHub repo
+and send (_push_ in Git terminology) those changes to the remote GitHub repo.
+Enter in the directory of this new local copy of the GitHub repo and introduce a
+change by creating a `README.md` file using a Unix shell terminal output redirection
+as follows:
+
+```
+$ cd practical3copy
+$ cat > README.md
+This is Practical 3!
+```
+Remember to press the keys `Ctrl+d` once you've typed the text. Now list the files,
+verify that a new file called `README.md` is there, that it has the contents you've
+typed and check the status of the repo:
+
+```
+$ ls
+README.md                        catalunya_setmanal_geriatric.csv
+catalunya_setmanal.csv           comarques_setmanal.csv
+$ cat README.md 
+This is Practical 3!
+$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	README.md
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+Stage the modified files and check the status again:
+```
+$ git add .
+$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	new file:   README.md
+```
+Commit the staged files and check the status again:
+```
+$ git commit -m 'Added README.md'
+[main 7d38744] Added README.md
+ 1 file changed, 1 insertion(+)
+ create mode 100644 README.md
+$ git status
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+```
+Finally, push the changes to the remote GitHub repo:
+```
+$ git push
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 298 bytes | 298.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/fcbstudent/practical3
+   1a28e38..7d38744  main -> main
+```
+If this last step has been successful, you should be able to see the
+new file and actually its contents as shown here below (a `README.md`
+file at the root of a GitHub repo has a special
+[treatment](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/about-readmes)
+in the GitHub page of the repo).
+
+![](./GHnewrepo4.png)
+
+# Pull changes from GitHub 
+
+You have your initial copy of the GitHub repo at `~/practical3` and
+a modified copy at `~/practical3copy`, where the latter has been
+synchronized with the remote GitHub repo. Now, let's see how could
+we update (_pull_ in Git terminology) our initial copy with the
+latest changes made in the second copy of our repo. First enter
+the directory of the initial copy of the GitHub repo (here we assume
+it was created at the _home_ directory) and verify it lacks the
+last file `README.md` we have added to the GitHub repo:
+
+```
+$ cd
+$ cd practical3
+$ ls
+catalunya_setmanal.csv           comarques_setmanal.csv
+catalunya_setmanal_geriatric.csv
+```
+Second, _pull_ the changes from GitHub and verify the new file
+`README.md` has been added to this copy of the GitHub repo:
+```
+$ git pull
+remote: Enumerating objects: 4, done.
+remote: Counting objects: 100% (4/4), done.
+remote: Compressing objects: 100% (1/1), done.
+remote: Total 3 (delta 1), reused 3 (delta 1), pack-reused 0
+Unpacking objects: 100% (3/3), done.
+From https://github.com/fcbstudent/practical3
+   1a28e38..7d38744  main       -> origin/main
+Updating 1a28e38..7d38744
+Fast-forward
+ README.md | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 README.md
+messi:practical3 robert$ ls
+README.md                        catalunya_setmanal_geriatric.csv
+catalunya_setmanal.csv           comarques_setmanal.csv
+```
+
+In general, you will not work with two local copies of the same
+GitHub repo in the same computer. We have used these two copies here
+only to illustrate how to _clone_ a remote repo, and _push_ and _pull_
+changes from that repo. The main utility of these actions is when
+either you work in two or more computers and need to synchronize your
+local copies of the GitHub repo, or you are working with collaborators
+that all update the same GitHub repo.
 
 # Undo changes in your local Git repo
 
@@ -525,258 +854,3 @@ command to undo that change will be different. Here we cover a few cases:
             First commit.
         ```
 
-# Upload your local Git repo to GitHub
-
-Here we want to create in GitHub a remote Git repo connected to our local one.
-We illustrate such process using the previous local Git repo, but assuming
-we have deleted the file `catalunya_setmanal_head.csv`.
-
-To get started, log into your GitHub account, click on the plus sign on the
-top-right and select "New repository" from the pull-down menu.
-
-![](./GHnewrepo.png)
-
-In the next page, type `practical3` in the textbox under `Repository name`, select
-`Private` for the type of repository and press the button `Create repository`.
-
-![](./GHnewrepo2.png)
-
-At this point you have created in your GitHub account an empty Git repo called
-`practical3`. We are going to connect it now with our local Git repo of
-`practical3`. Make sure your CWD is the Git repo `practical3` in your local disk
-and follow the instructions in the GitHub page under the title
-**"... or push an existing repository from the command line"**. They consist of
-the following three steps:
-
-  1. Create a new connection to your remote GitHub repo with `git remote add`,
-    **replacing** the `fcbstudent` word below by your own username):
-
-        ```
-        $ git remote add origin https://github.com/fcbstudent/practical3.git
-        ```
-   You can check whether this connection has been successfully established by
-   using the `-v` option with the `remote` command:
-
-        ```
-        $ git remote -v
-        origin	https://github.com/fcbstudent/practical3.git (fetch)
-        origin	https://github.com/fcbstudent/practical3.git (push)
-        ```
-   If you see **no** URL connection specified to the right of the word `origin`,
-   then you have probably misspecified the repo URL. Before you try to add
-   again the remote connection, you should remove this _bogus_ one by typing:
-
-        ```
-        $ git remote remove origin
-        ```
-
-  2. Create the default branch under the name `main`:
-
-        ``` 
-        $ git branch -M main
-        ```
-
-  3. Push the contents of the current branch in the local Git repo to the
-    upstream main branch in the GitHub repo:
-
-        ```
-        $ git push -u origin main
-        Enumerating objects: 4, done.
-        Counting objects: 100% (4/4), done.
-        Delta compression using up to 4 threads
-        Compressing objects: 100% (4/4), done.
-        Writing objects: 100% (4/4), 368.54 KiB | 4.24 MiB/s, done.
-        Total 4 (delta 1), reused 0 (delta 0)
-        remote: Resolving deltas: 100% (1/1), done.
-        To https://github.com/fcbstudent/practical3.git
-         * [new branch]      main -> main
-        Branch 'main' set up to track remote branch 'main' from 'origin'.
-        ```
-   If in this step instead of the previous output you get an error, then
-   probably the connection to the remote GitHub repo has not been correctly
-   established. Got back to step 1, use the given command to remove this
-   current connection and try to add it again, making sure that the GitHub
-   URL is correct.
-
-Click now on the link to the private repo on the top-left of your GitHub account
-to go to the page of the repo and check that the files have been successfully
-uploaded to GitHub.
-
-![](./GHnewrepo3.png)
-
-Check out also that the status of your local repo tells that it is up to date
-with the new remote connection.
-
-```
-$ git status
-On branch main
-Your branch is up to date with 'origin/main'.
-
-nothing to commit, working tree clean
-```
-
-The GitHub page for the repo has several tabs, where the one called "Settings"
-can be used to configure some of the other tabs and perform actions such as
-switching the visibility from private to public or delete entirely this Git
-repo from GitHub.
-
-# Cloning a GitHub repo into a local Git repo
-
-The reverse operation of uploading a local repo to a GitHub is **cloning**
-a GitHub repo into a local repo. When you _clone_ a GitHub repo, you are copying
-into your local filesystem all the files, version history and branches from the
-GitHub repo.
-
-To _clone_ a **public** GitHub repo into your local filesystem you use the Git
-command `clone` as follows:
-```
-$ git clone https://github.com/USERNAME/REPONAME [DIRECTORY]
-```
-where `USERNAME` is the username owner of the repo you want to _clone_, while
-`REPONAME` is the name of the Git repo you want to clone. **Optionally**, you can
-give a directory name in `DIRECTORY` to clone the repo under a directory called
-differently to the `REPONAME`.
-
-To _clone_ a **private** GitHub repo into your local filesystem you use the Git
-command `clone` as follows:
-```
-$ git clone https://USERNAME:PASSWORD@github.com/USERNAME/REPONAME [DIRECTORY]
-```
-
-It's important to know whether you are cloning a public or a private Git repo,
-because if you use the syntax for cloning a public repo that in fact is private,
-then Git will give you and error saying that it cannot find the Git repo.
-
-For instance, go to your home directory and clone your recently created GitHub
-repo `practical3` into a different name such as `practical3copy` by doing:
-
-```
-$ cd
-$ git clone https://USERNAME:PASSWORD@github.com/USERNAME/practical3 practical3copy
-```
-where you should replace `USERNAME` and `PASSWORD` accordingly.
-
-# Push changes to GitHub 
-
-Here, we are going to see how update the new local copy of our remote GitHub repo
-and send (_push_ in Git terminology) those changes to the remote GitHub repo.
-Enter in the directory of this new local copy of the GitHub repo and introduce a
-change by creating a `README.md` file using a Unix shell terminal output redirection
-as follows:
-
-```
-$ cd practical3copy
-$ cat > README.md
-This is Practical 3!
-```
-Remember to press the keys `Ctrl+d` once you've typed the text. Now list the files,
-verify that a new file called `README.md` is there, that it has the contents you've
-typed and check the status of the repo:
-
-```
-$ ls
-README.md                        catalunya_setmanal_geriatric.csv
-catalunya_setmanal.csv           comarques_setmanal.csv
-$ cat README.md 
-This is Practical 3!
-$ git status
-On branch main
-Your branch is up to date with 'origin/main'.
-
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-	README.md
-
-nothing added to commit but untracked files present (use "git add" to track)
-```
-Stage the modified files and check the status again:
-```
-$ git add .
-$ git status
-On branch main
-Your branch is up to date with 'origin/main'.
-
-Changes to be committed:
-  (use "git restore --staged <file>..." to unstage)
-	new file:   README.md
-```
-Commit the staged files and check the status again:
-```
-$ git commit -m 'Added README.md'
-[main 7d38744] Added README.md
- 1 file changed, 1 insertion(+)
- create mode 100644 README.md
-$ git status
-On branch main
-Your branch is ahead of 'origin/main' by 1 commit.
-  (use "git push" to publish your local commits)
-
-nothing to commit, working tree clean
-```
-Finally, push the changes to the remote GitHub repo:
-```
-$ git push
-Enumerating objects: 4, done.
-Counting objects: 100% (4/4), done.
-Delta compression using up to 4 threads
-Compressing objects: 100% (2/2), done.
-Writing objects: 100% (3/3), 298 bytes | 298.00 KiB/s, done.
-Total 3 (delta 1), reused 0 (delta 0)
-remote: Resolving deltas: 100% (1/1), completed with 1 local object.
-To https://github.com/fcbstudent/practical3
-   1a28e38..7d38744  main -> main
-```
-If this last step has been successful, you should be able to see the
-new file and actually its contents as shown here below (a `README.md`
-file at the root of a GitHub repo has a special
-[treatment](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/about-readmes)
-in the GitHub page of the repo).
-
-![](./GHnewrepo4.png)
-
-# Pull changes from GitHub 
-
-You have your initial copy of the GitHub repo at `~/practical3` and
-a modified copy at `~/practical3copy`, where the latter has been
-synchronized with the remote GitHub repo. Now, let's see how could
-we update (_pull_ in Git terminology) our initial copy with the
-latest changes made in the second copy of our repo. First enter
-the directory of the initial copy of the GitHub repo (here we assume
-it was created at the _home_ directory) and verify it lacks the
-last file `README.md` we have added to the GitHub repo:
-
-```
-$ cd
-$ cd practical3
-$ ls
-catalunya_setmanal.csv           comarques_setmanal.csv
-catalunya_setmanal_geriatric.csv
-```
-Second, _pull_ the changes from GitHub and verify the new file
-`README.md` has been added to this copy of the GitHub repo:
-```
-$ git pull
-remote: Enumerating objects: 4, done.
-remote: Counting objects: 100% (4/4), done.
-remote: Compressing objects: 100% (1/1), done.
-remote: Total 3 (delta 1), reused 3 (delta 1), pack-reused 0
-Unpacking objects: 100% (3/3), done.
-From https://github.com/fcbstudent/practical3
-   1a28e38..7d38744  main       -> origin/main
-Updating 1a28e38..7d38744
-Fast-forward
- README.md | 1 +
- 1 file changed, 1 insertion(+)
- create mode 100644 README.md
-messi:practical3 robert$ ls
-README.md                        catalunya_setmanal_geriatric.csv
-catalunya_setmanal.csv           comarques_setmanal.csv
-```
-
-In general, you will not work with two local copies of the same
-GitHub repo in the same computer. We have used these two copies here
-only to illustrate how to _clone_ a remote repo, and _push_ and _pull_
-changes from that repo. The main utility of these actions is when
-either you work in two or more computers and need to synchronize your
-local copies of the GitHub repo, or you are working with collaborators
-that all update the same GitHub repo.
