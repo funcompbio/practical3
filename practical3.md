@@ -9,7 +9,8 @@ permalink: /practical3/
 The learning objectives for this practical are:
 
  * Setting up Git.
- * Setting up a Git repo in our local disk.
+ * Setting up a personal access token in GitHub.
+ * Setting up a Git repo in your local disk.
  * Update your local Git repo.
  * Upload your local Git repo to GitHub.
  * Cloning a GitHub repo into a local Git repo.
@@ -95,53 +96,55 @@ where `command` is one of Git's commands such as `add` or `checkout`.
 
 Since August 2021, GitHub has raised their security standards by separating the
 way in which we authenticate ourselves with a username and a password into our
-GitHub profile at https://github.com from the way in which we authenticate
-ourselves to perform Git operations from the Unix command line that affect a
-remote repo in https://github.com; see this
+GitHub profile at [https://github.com](https://github.com), from the way in which
+we authenticate ourselves to perform Git operations from the Unix command line
+that affect a remote repo in [https://github.com](https://github.com); see this
 [blog post](https://github.blog/2020-12-15-token-authentication-requirements-for-git-operations)
 if you want to learn full details on this.
 
-In summary, in both situations we should use the same username, but with different
-passwords. For accessing our GitHub profile at https://github.com we will use the
-password we set when we created our profile, while for performing Git operations
-from the Unix command line we need to generate another one, which GitHub calls
-a [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token), with the following steps:
+In summary, in both situations we should use the same username, but with
+**different** passwords. For accessing our GitHub profile at
+[https://github.com](https://github.com) we will use the password we set when
+we created our profile, while for performing Git operations from the Unix
+command line we need to generate another one, which GitHub calls a
+[personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token),
+with the following steps:
 
-1. Log into your GitHub profile at https://github.com and go to the `Settings`
-  option from the pull-down menu of your profile.
+1. Log into your GitHub profile at [https://github.com](https://github.com) and
+  go to the `Settings` option from the pull-down menu of your profile.
 
-![](./ConfAccessToken1.png)
+    ![:scale 80%](./ConfAccessToken1.png)
 
 2. Click on the `Developer settings` tab located on the left-side menu panel.
 
-![](./ConfAccessToken2.png)
+    ![:scale 80%](./ConfAccessToken2.png)
 
 3. Click on the `Personal access token` tab located on the left-side menu panel.
 
-![](./ConfAccessToken3.png)
+    ![:scale 80%](./ConfAccessToken3.png)
 
 4. Click on the `Generate new token` button.
 
-![](./ConfAccessToken4.png)
+    ![:scale 80%](./ConfAccessToken4.png)
 
 5. In the form for generating a new personal access token enter `fcb` on the `Note`
   field, set the `Expiration` pull-down menu to `No expiration` and select the
   checkbox `repo` among the `Select scopes` options.
 
-![](./ConfAccessToken5.png)
+    ![:scale 80%](./ConfAccessToken5.png)
 
 6. Click on the button `Generate token` at the bottom of the page.
 
-![](./ConfAccessToken6.png)
+    ![:scale 80%](./ConfAccessToken6.png)
 
-7. In the new page showing the personal access token, click on the copy icon, or
-  select and copy the token yourself, and store it securely somewhere in your local
-  disk. **This is the password you will have to use** when your perform Git operations
-  from the Unix command line.
+7. In the new page showing the personal access token, click on the copy icon,
+  or select and copy the token yourself, and store it securely somewhere in your
+  local disk. **This is the password you will have to use** when you perform Git
+  operations from the Unix command line.
 
-![](./ConfAccessToken7.png)
+    ![:scale 80%](./ConfAccessToken7.png)
 
-# Setting up a Git repo in our local disk
+# Setting up a Git repo in your local disk
 
 Here we are going to set up our first Git repository, commonly referred to with
 the shorthand Git _repo_, in our local disk. First make sure you have a
