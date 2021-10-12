@@ -144,7 +144,10 @@ with the following steps:
   operations from the Unix command line that affect a remote repo in
   [https://github.com](https://github.com), such as the ones we will see in
   sections
-  [Upload your local Git repo to GitHub](#upload-your-local-Git-repo-to-GitHub)
+  [Upload your local Git repo to GitHub](#upload-your-local-git-repo-to-github),
+  [Cloning a GitHub repo into a local Git repo](#cloning-a-github-repo-into-a-local-git-repo),
+  [Push changes to GitHub](#push-changes-to-github) and
+  [Pull changes from GitHub](#pull-changes-from-github).
 
     ![](./ConfAccessToken7.png)
 
@@ -309,11 +312,13 @@ the following three steps:
          * [new branch]      main -> main
         Branch 'main' set up to track remote branch 'main' from 'origin'.
         ```
-   In this step you may be asked for your GitHub username and password. The password cannot
-   be one you use to enter into your GitHub profile, but it should be an access token that 
-   you have previously generated (see the previous instructions on
-   [Setting up a personal access token in GitHub](#setting-up-a-personal-access-token-in-GitHub)).
-   If you enter the wrong password then instead of the previous output you will get the
+   In this step you may be asked for your GitHub username and a password.
+   **Warning**: the password that you enter here to perform this Git operation
+   on a remote repository **is not** the one you use to enter into your GitHub
+   profile, but it should be a _personal access token_ that you have previously
+   generated (see the previous instructions on section
+   [Setting up a personal access token in GitHub](#setting-up-a-personal-access-token-in-github)).
+   If you enter the wrong password then, instead of the previous output, you will get the
    following error:
 
         ```
@@ -322,14 +327,15 @@ the following three steps:
         remote: Please see https://github.blog/2020-12-15-token-authentication-requirements-for-git-operations/ for more information
         fatal: Authentication failed for 'https://github.com/fcbstudent/practical3.git/'
         ```
-   In such a case, you should either try again with your access token or, if you have not
-   generate it yet, then go to the previous instructions on
-   [Setting up a personal access token in GitHub](#setting-up-a-personal-access-token-in-GitHub)).
-   and follow the steps to generate an access token
-   for GitHub. If you think you are using the correct access token, but you still get an
-   error, then probably the connection to the remote GitHub repo has not been correctly
-   established. Got back to step 1, use the given command to remove this current
-   connection and try to add it again, making sure that the GitHub URL is correct.
+   In such a case, you should either try again with your _personal access token_
+   or, if you have not generate it yet, then go to the previous instructions on
+   [Setting up a personal access token in GitHub](#setting-up-a-personal-access-token-in-github)).
+   and follow the steps to generate a _personal access token_ for GitHub. If you
+   think you are using the correct _personal access token_, but you still get an
+   error, then probably the connection to the remote GitHub repo has not been
+   correctly established. In such a case, go back to step 1, use the given
+   command to remove this current connection and try to add it again, making
+   sure that the GitHub URL is correct.
 
 Click now on the link to the private repo on the top-left of your GitHub account
 (`yourgithubusername/practical3`) to go to the page of the repo and check that
