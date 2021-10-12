@@ -2,7 +2,8 @@
 <p>The learning objectives for this practical are:</p>
 <ul>
 <li>Setting up Git.</li>
-<li>Setting up a Git repo in our local disk.</li>
+<li>Setting up a personal access token in GitHub.</li>
+<li>Setting up a Git repo in your local disk.</li>
 <li>Update your local Git repo.</li>
 <li>Upload your local Git repo to GitHub.</li>
 <li>Cloning a GitHub repo into a local Git repo.</li>
@@ -36,37 +37,39 @@ $ git help command
 $ git command --help</code></pre>
 <p>where <code>command</code> is one of Git’s commands such as <code>add</code> or <code>checkout</code>.</p>
 <h1 id="setting-up-a-personal-access-token-in-github">Setting up a personal access token in GitHub</h1>
-<p>Since August 2021, GitHub has raised their security standards by separating the way in which we authenticate ourselves with a username and a password into our GitHub profile at https://github.com from the way in which we authenticate ourselves to perform Git operations from the Unix command line that affect a remote repo in https://github.com; see this <a href="https://github.blog/2020-12-15-token-authentication-requirements-for-git-operations">blog post</a> if you want to learn full details on this.</p>
-<p>In summary, in both situations we should use the same username, but with different passwords. For accessing our GitHub profile at https://github.com we will use the password we set when we created our profile, while for performing Git operations from the Unix command line we need to generate another one, which GitHub calls a <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">personal access token</a>, with the following steps:</p>
+<p>Since August 2021, GitHub has raised their security standards by separating the way in which we authenticate ourselves with a username and a password into our GitHub profile at <a href="https://github.com">https://github.com</a>, from the way in which we authenticate ourselves to perform Git operations from the Unix command line that affect a remote repo in <a href="https://github.com">https://github.com</a>; see this <a href="https://github.blog/2020-12-15-token-authentication-requirements-for-git-operations">blog post</a> if you want to learn full details on this.</p>
+<p>In summary, in both situations we should use the same username, but with <strong>different</strong> passwords. For accessing our GitHub profile at <a href="https://github.com">https://github.com</a> we will use the password we set when we created our profile, while for performing Git operations from the Unix command line we need to generate another one, which GitHub calls a <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">personal access token</a>, with the following steps:</p>
 <ol type="1">
-<li>Log into your GitHub profile at https://github.com and go to the <code>Settings</code> option from the pull-down menu of your profile.</li>
+<li><p>Log into your GitHub profile at <a href="https://github.com">https://github.com</a> and go to the <code>Settings</code> option from the pull-down menu of your profile.</p>
+<figure>
+<img src="./ConfAccessToken1.png" alt=":scale 80%" /><figcaption aria-hidden="true">:scale 80%</figcaption>
+</figure></li>
+<li><p>Click on the <code>Developer settings</code> tab located on the left-side menu panel.</p>
+<figure>
+<img src="./ConfAccessToken2.png" alt=":scale 80%" /><figcaption aria-hidden="true">:scale 80%</figcaption>
+</figure></li>
+<li><p>Click on the <code>Personal access token</code> tab located on the left-side menu panel.</p>
+<figure>
+<img src="./ConfAccessToken3.png" alt=":scale 80%" /><figcaption aria-hidden="true">:scale 80%</figcaption>
+</figure></li>
+<li><p>Click on the <code>Generate new token</code> button.</p>
+<figure>
+<img src="./ConfAccessToken4.png" alt=":scale 80%" /><figcaption aria-hidden="true">:scale 80%</figcaption>
+</figure></li>
+<li><p>In the form for generating a new personal access token enter <code>fcb</code> on the <code>Note</code> field, set the <code>Expiration</code> pull-down menu to <code>No expiration</code> and select the checkbox <code>repo</code> among the <code>Select scopes</code> options.</p>
+<figure>
+<img src="./ConfAccessToken5.png" alt=":scale 80%" /><figcaption aria-hidden="true">:scale 80%</figcaption>
+</figure></li>
+<li><p>Click on the button <code>Generate token</code> at the bottom of the page.</p>
+<figure>
+<img src="./ConfAccessToken6.png" alt=":scale 80%" /><figcaption aria-hidden="true">:scale 80%</figcaption>
+</figure></li>
+<li><p>In the new page showing the personal access token, click on the copy icon, or select and copy the token yourself, and store it securely somewhere in your local disk. <strong>This is the password you will have to use</strong> when you perform Git operations from the Unix command line.</p>
+<figure>
+<img src="./ConfAccessToken7.png" alt=":scale 80%" /><figcaption aria-hidden="true">:scale 80%</figcaption>
+</figure></li>
 </ol>
-<p><img src="./ConfAccessToken1.png" /></p>
-<ol start="2" type="1">
-<li>Click on the <code>Developer settings</code> tab located on the left-side menu panel.</li>
-</ol>
-<p><img src="./ConfAccessToken2.png" /></p>
-<ol start="3" type="1">
-<li>Click on the <code>Personal access token</code> tab located on the left-side menu panel.</li>
-</ol>
-<p><img src="./ConfAccessToken3.png" /></p>
-<ol start="4" type="1">
-<li>Click on the <code>Generate new token</code> button.</li>
-</ol>
-<p><img src="./ConfAccessToken4.png" /></p>
-<ol start="5" type="1">
-<li>In the form for generating a new personal access token enter <code>fcb</code> on the <code>Note</code> field, set the <code>Expiration</code> pull-down menu to <code>No expiration</code> and select the checkbox <code>repo</code> among the <code>Select scopes</code> options.</li>
-</ol>
-<p><img src="./ConfAccessToken5.png" /></p>
-<ol start="6" type="1">
-<li>Click on the button <code>Generate token</code> at the bottom of the page.</li>
-</ol>
-<p><img src="./ConfAccessToken6.png" /></p>
-<ol start="7" type="1">
-<li>In the new page showing the personal access token, click on the copy icon, or select and copy the token yourself, and store it securely somewhere in your local disk. <strong>This is the password you will have to use</strong> when your perform Git operations from the Unix command line.</li>
-</ol>
-<p><img src="./ConfAccessToken7.png" /></p>
-<h1 id="setting-up-a-git-repo-in-our-local-disk">Setting up a Git repo in our local disk</h1>
+<h1 id="setting-up-a-git-repo-in-your-local-disk">Setting up a Git repo in your local disk</h1>
 <p>Here we are going to set up our first Git repository, commonly referred to with the shorthand Git <em>repo</em>, in our local disk. First make sure you have a directory called <code>practical3</code> with the two CSV files <code>cataluna_setmanal.csv</code> and <code>comarques_setmanal.csv</code>. Now, enter the <code>practical3</code> directory and type the following:</p>
 <pre><code>$ git init</code></pre>
 <p>Verify that the <code>.git</code> database directory has been created by typing (you should see a directory called <code>.git/</code> next to your CSV files):</p>
