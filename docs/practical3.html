@@ -1,6 +1,8 @@
 <h1 id="objectives">Objectives</h1>
 <p>The learning objectives for this practical are:</p>
 <ul>
+<li>Have your computer set up to work with the Unix command-line.</li>
+<li>Download epidemiological data from the Catalan SIVIC network.</li>
 <li>Setting up Git.</li>
 <li>Setting up a personal access token in GitHub.</li>
 <li>Setting up a Git repo in your local disk.</li>
@@ -12,17 +14,12 @@
 <li>Undo changes in your local Git repo.</li>
 </ul>
 <h1 id="setup-and-background">Setup and background</h1>
-<p>We will download again some COVID19 data. Please follow the next two steps:</p>
-<ol type="1">
-<li>Go to the Catalan Health Departament COVID data portal at <a href="https://dadescovid.cat">https://dadescovid.cat</a> and switch the language to “ENGLISH” using the pull-down menu on the top-right corner of the page.</li>
-<li>Follow the downloads link and on the next page click and download the two files corresponding to the “7 DAY AGGREGATION” for “CATALUNYA” and “COUNTIES” (“COMARQUES” in Catalan). It is important that you download both files in the same day to make them comparable, because all data is updated daily. Make sure you know exactly where in your filesystem these two files have been downloaded. <strong>Tip:</strong> some browsers automatically download files into a folder called “Downloads” or under a name corresponding to the translation of “Downloads” to the default language of your operating system.</li>
-<li>Make a directory in your filesystem, for instance at your <em>home</em> directory, called <code>practical3</code> and copy in it the CSV files contained in the previous two ZIP files that you have downloaded, as you analogously did in practical 1 and 2.</li>
-</ol>
+<p>In this practical we will learn to use the Git version control system (VCS). You need to have access to a Unix <a href="https://en.wikipedia.org/wiki/Command-line_interface">command-line interface (CLI)</a> and to the Git VCS software. If you are doing this practical in your own computer, please check the <a href="/setup/">setup</a> webpage to make sure that you have access to some flavor of a Unix operating system, its CLI and the Git VCS.</p>
+<p>We will use the data files called <code>mostres_analitzades.csv</code> i <code>virus_detectats.csv</code> that were generated in the <a href="/practical1/">first practical</a>. If you don’t have these files, please review that practical and generate them again. Once you have obtained those two files, copy them into a fresh new directory called <code>practical3</code>.</p>
 <h1 id="setting-up-git">Setting up Git</h1>
-<p>We start setting up some global options for Git. You only need to do this once in your computer. Make sure you have git installed in your system by opening the Unix shell and typing:</p>
-<pre><code>$ which git</code></pre>
-<p>If you get no answer from this command, it means that you need to install the Git software. Check out the <a href="/setup/">setup</a> page for instructions about how to install it. Once git is installed, please verify the version of git you have by typing:</p>
+<p>We start setting up some global options for Git. You only need to do this once in your computer. Make sure you have Git installed in your system by opening the Unix shell and typing:</p>
 <pre><code>$ git --version</code></pre>
+<p>If you get no answer from this command, it means that you need to install the Git software. Check out the <a href="/setup/">setup</a> page for instructions about how to install it. Once Git is installed, the previous command should give you the installed version of the Git software.</p>
 <p>Now you should set up your identity with Git by giving your name and email address. This information is important because Git will store it in every commit and will allow you and others to track which changes you have made. To set up your identity type:</p>
 <pre><code>$ git config --global user.name &quot;XXXXX YYYY&quot;
 $ git config --global user.email &quot;ZZZZ@WWWW.UUUU&quot;</code></pre>
@@ -37,8 +34,8 @@ $ git help command
 $ git command --help</code></pre>
 <p>where <code>command</code> is one of Git’s commands such as <code>add</code> or <code>checkout</code>.</p>
 <h1 id="setting-up-a-personal-access-token-in-github">Setting up a personal access token in GitHub</h1>
-<p>Since August 2021, GitHub has raised their security standards by separating the way in which we authenticate ourselves with a username and a password into our GitHub profile at <a href="https://github.com">https://github.com</a>, from the way in which we authenticate ourselves to perform Git operations from the Unix command line that affect a remote repo in <a href="https://github.com">https://github.com</a>; see this <a href="https://github.blog/2020-12-15-token-authentication-requirements-for-git-operations">blog post</a> if you want to learn full details on this.</p>
-<p>In summary, in both situations we should use the same username, but with <strong>different</strong> passwords. For accessing our GitHub profile at <a href="https://github.com">https://github.com</a> we will use the password we set when we created our profile, while for performing Git operations from the Unix command line that affect a remote repo in <a href="https://github.com">https://github.com</a> we need to generate another one, which GitHub calls a <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">personal access token</a>, with the following steps:</p>
+<p>Since August 2021, GitHub has raised their security standards by separating the way in which we authenticate ourselves with a username and a password into our GitHub profile at <a href="https://github.com">https://github.com</a>, from the way in which we authenticate ourselves to perform Git operations from the Unix command line that affect a remote repo in <a href="https://github.com">https://github.com</a>; see this <a href="https://github.blog/2020-12-15-token-authentication-requirements-for-git-operations">blog post</a> if you want to have an intuition about GitHub acces tokens and this <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens">page</a> for full details on how to generate them.</p>
+<p>In summary, in both situations we should use the same username, but with <strong>different</strong> passwords. <strong>For accessing our GitHub profile</strong> at <a href="https://github.com">https://github.com</a> we will use the password we set when we created our profile, while <strong>for performing Git operations from the Unix command line that affect a remote repo</strong> in <a href="https://github.com">https://github.com</a> we need to generate another one, which GitHub calls a <a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">personal access token</a>, with the following steps:</p>
 <ol type="1">
 <li><p>Log into your GitHub profile at <a href="https://github.com">https://github.com</a> and go to the <code>Settings</code> option from the pull-down menu of your profile.</p>
 <p><img src="./ConfAccessToken1.png" /></p></li>
@@ -56,15 +53,16 @@ $ git command --help</code></pre>
 <p><img src="./ConfAccessToken7.png" /></p></li>
 </ol>
 <h1 id="setting-up-a-git-repo-in-your-local-disk">Setting up a Git repo in your local disk</h1>
-<p>Here we are going to set up our first Git repository, commonly referred to with the shorthand Git <em>repo</em>, in our local disk. First make sure you have a directory called <code>practical3</code> with the two CSV files <code>cataluna_setmanal.csv</code> and <code>comarques_setmanal.csv</code>. Now, enter the <code>practical3</code> directory and type the following:</p>
+<p>Here we are going to set up our first Git repository, commonly referred to with the shorthand Git <em>repo</em>, in our local disk. First make sure you have a directory called <code>practical3</code> with the two CSV files <code>mostres_analitzades.csv</code> and <code>virus_detectats.csv</code>. Now, enter the <code>practical3</code> directory and type the following:</p>
 <pre><code>$ git init</code></pre>
 <p>Verify that the <code>.git</code> database directory has been created by typing (you should see a directory called <code>.git/</code> next to your CSV files):</p>
 <pre><code>$ ls -lhaF
-drwxr-xr-x  5 robert  staff   160B Oct  7 17:49 ./
-drwxr-xr-x  7 robert  staff   224B Oct  7 17:49 ../
-drwxr-xr-x  9 robert  staff   288B Oct  7 17:49 .git/
--rw-r--r--@ 1 robert  staff   1.4M Oct  7 17:49 catalunya_setmanal.csv
--rw-r--r--  1 robert  staff   800K Oct  7 17:49 comarques_setmanal.csv</code></pre>
+total 4864
+drwxr-xr-x    5 robert  staff   160B Oct  6 18:51 ./
+drwxr-xr-x+ 115 robert  staff   3.6K Oct  6 18:49 ../
+drwxr-xr-x    9 robert  staff   288B Oct  6 18:51 .git/
+-rw-r--r--@   1 robert  staff   1.2M Oct  6 18:51 mostres_analitzades.csv
+-rw-r--r--@   1 robert  staff   1.2M Oct  6 18:51 virus_detectats.csv</code></pre>
 <p>Checkout the status of your Git repo using <code>git status</code>:</p>
 <pre><code>$ git status
 On branch main
@@ -73,8 +71,8 @@ No commits yet
 
 Untracked files:
   (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
-    catalunya_setmanal.csv
-    comarques_setmanal.csv
+    mostres_analitzades.csv
+    virus_detectats.csv
 
 nothing added to commit but untracked files present (use &quot;git add&quot; to track)</code></pre>
 <p>You should note that we have two modified files that are “untracked” (unstaged). Stage those files by using the <code>git add</code> command and check the status again:</p>
@@ -86,27 +84,27 @@ No commits yet
 
 Changes to be committed:
   (use &quot;git rm --cached &lt;file&gt;...&quot; to unstage)
-    new file:   catalunya_setmanal.csv
-    new file:   comarques_setmanal.csv</code></pre>
+        new file:   mostres_analitzades.csv
+        new file:   virus_detectats.csv</code></pre>
 <p>Finally, commit the staged files by doing:</p>
 <pre><code>$ git commit -m &#39;First commit.&#39;
-[main (root-commit) d35b756] First commit.
- 2 files changed, 26965 insertions(+)
- create mode 100644 catalunya_setmanal.csv
- create mode 100644 comarques_setmanal.csv</code></pre>
+[main (root-commit) 3a7b39e] First commit
+ 2 files changed, 28448 insertions(+)
+ create mode 100644 mostres_analitzades.csv
+ create mode 100644 virus_detectats.csv</code></pre>
 <p>Check out that the status doesn’t have pending commits anymore:</p>
 <pre><code>$ git status
 On branch main
 nothing to commit, working tree clean</code></pre>
 <p>Examine this first change with <code>git log</code>:</p>
 <pre><code>$ git log
-commit d35b7567e8ddef0534303737e0b8b3a51b4c0ec6 (HEAD -&gt; main)
+commit 3a7b39e619809318a9076e38033ba226ccd60e80 (HEAD -&gt; main)
 Author: Robert Castelo &lt;robert.castelo@upf.edu&gt;
-Date:   Thu Oct 7 17:55:50 2020 +0200
+Date:   Fri Oct 6 18:55:51 2023 +0200
 
-    First commit.</code></pre>
+    First commit</code></pre>
 <h1 id="update-your-local-git-repo">Update your local Git repo</h1>
-<p>Here we want to practise how to update the local Git repo, keeping track of the changes with Git. First, create a file called <code>catalunya_setmanal_geriatric.csv</code> with the subset of the data in <code>catalunya_setmanal.csv</code> corresponding to the population that lives in geriatric residences (see practical 2). Once you have generated that file, check out the status of the repo. You should notice that Git has detected a new file that is untracked. Stage this untracked file and commit the change to the repo.</p>
+<p>Here we want to practise how to update the local Git repo, keeping track of the changes with Git. First, create a file called <code>mostres_analitzades_bcn.csv</code> with the subset of the data in <code>mostres_analitzades.csv</code> corresponding to the rows derived from the area of Barcelona (see <a href="/practical2/">practical 2</a>). Once you have generated that file, check out the status of the repo. You should notice that Git has detected a new file that is untracked. Stage this untracked file and commit the change to the repo.</p>
 <h1 id="upload-your-local-git-repo-to-github">Upload your local Git repo to GitHub</h1>
 <p>Here we want to create in GitHub a remote Git repo connected to our local one. We illustrate such process using the previous local Git repo.</p>
 <p>To get started, log into your GitHub account, click on the plus sign on the top-right and select “New repository” from the pull-down menu.</p>
@@ -127,16 +125,16 @@ origin  https://github.com/fcbstudent/practical3.git (push)</code></pre>
 <pre><code>$ git branch -M main</code></pre></li>
 <li><p>Push the contents of the current branch in the local Git repo to the upstream main branch in the GitHub repo:</p>
 <pre><code>$ git push -u origin main
-Enumerating objects: 4, done.
-Counting objects: 100% (4/4), done.
-Delta compression using up to 4 threads
-Compressing objects: 100% (4/4), done.
-Writing objects: 100% (4/4), 368.54 KiB | 4.24 MiB/s, done.
-Total 4 (delta 1), reused 0 (delta 0)
-remote: Resolving deltas: 100% (1/1), done.
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (7/7), done.
+Writing objects: 100% (7/7), 220.04 KiB | 2.62 MiB/s, done.
+Total 7 (delta 3), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (3/3), done.
 To https://github.com/fcbstudent/practical3.git
  * [new branch]      main -&gt; main
-Branch &#39;main&#39; set up to track remote branch &#39;main&#39; from &#39;origin&#39;.</code></pre>
+branch &#39;main&#39; set up to track &#39;origin/main&#39;.</code></pre>
 <p>In this step you may be asked for your GitHub username and a password. <strong>Warning</strong>: the password that you enter here to perform this Git operation on a remote repository <strong>is not</strong> the one you use to enter into your GitHub profile, but it should be a <em>personal access token</em> that you have previously generated (see the previous instructions on section <a href="#setting-up-a-personal-access-token-in-github">Setting up a personal access token in GitHub</a>). If you enter the wrong password then, instead of the previous output, you will get the following error:</p>
 <pre><code>remote: Support for password authentication was removed on August 13, 2021.
 Please use a personal access token instead.
@@ -155,16 +153,13 @@ nothing to commit, working tree clean</code></pre>
 <p>The GitHub page for the repo has several tabs, where the one called “Settings” can be used to configure some of the other tabs and perform actions such as switching the visibility from private to public or delete entirely this Git repo from GitHub.</p>
 <h1 id="cloning-a-github-repo-into-a-local-git-repo">Cloning a GitHub repo into a local Git repo</h1>
 <p>The reverse operation of uploading a local repo to a GitHub is <strong>cloning</strong> a GitHub repo into a local repo. When you <em>clone</em> a GitHub repo, you are copying into your local filesystem all the files, version history and branches from the GitHub repo.</p>
-<p>To <em>clone</em> a <strong>public</strong> GitHub repo into your local filesystem you use the Git command <code>clone</code> as follows:</p>
+<p>To <em>clone</em> a GitHub repo into your local filesystem you use the Git command <code>clone</code> as follows:</p>
 <pre><code>$ git clone https://github.com/USERNAME/REPONAME [DIRECTORY]</code></pre>
 <p>where <code>USERNAME</code> is the username owner of the repo you want to <em>clone</em>, while <code>REPONAME</code> is the name of the Git repo you want to clone. <strong>Optionally</strong>, you can give a directory name in <code>DIRECTORY</code> to clone the repo under a directory called differently to the <code>REPONAME</code>.</p>
-<p>To <em>clone</em> a <strong>private</strong> GitHub repo into your local filesystem you use the Git command <code>clone</code> as follows:</p>
-<pre><code>$ git clone https://USERNAME:PASSWORD@github.com/USERNAME/REPONAME [DIRECTORY]</code></pre>
-<p>It’s important to know whether you are cloning a public or a private Git repo, because if you use the syntax for cloning a public repo that in fact is private, then Git will give you and error saying that it cannot find the Git repo.</p>
 <p>For instance, go to your home directory and clone your recently created GitHub repo <code>practical3</code> into a different name such as <code>practical3copy</code> by doing:</p>
 <pre><code>$ cd
-$ git clone https://USERNAME:PASSWORD@github.com/USERNAME/practical3 practical3copy</code></pre>
-<p>where you should replace <code>USERNAME</code> and <code>PASSWORD</code> accordingly.</p>
+$ git clone https://github.com/USERNAME/practical3 practical3copy</code></pre>
+<p>where you should replace <code>USERNAME</code> by your username. The system will ask you for your usename and password, where you should copy and paste your GitHub access token as a password.</p>
 <h1 id="push-changes-to-github">Push changes to GitHub</h1>
 <p>Here, we are going to see how update the new local copy of our remote GitHub repo and send (<em>push</em> in Git terminology) those changes to the remote GitHub repo. Enter in the directory of this new local copy of the GitHub repo and introduce a change by creating a <code>README.md</code> file using a Unix shell terminal output redirection as follows:</p>
 <pre><code>$ cd practical3copy
@@ -172,8 +167,8 @@ $ cat &gt; README.md
 This is Practical 3!</code></pre>
 <p>Remember to press the keys <code>Ctrl+d</code> once you’ve typed the text. Now list the files, verify that a new file called <code>README.md</code> is there, that it has the contents you’ve typed and check the status of the repo:</p>
 <pre><code>$ ls
-README.md                        catalunya_setmanal_geriatric.csv
-catalunya_setmanal.csv           comarques_setmanal.csv
+README.md                   mostres_analitzades_bcn.csv
+mostres_analitzades.csv     virus_detectats.csv
 $ cat README.md 
 This is Practical 3!
 $ git status
@@ -182,7 +177,7 @@ Your branch is up to date with &#39;origin/main&#39;.
 
 Untracked files:
   (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
-    README.md
+        README.md
 
 nothing added to commit but untracked files present (use &quot;git add&quot; to track)</code></pre>
 <p>Stage the modified files and check the status again:</p>
@@ -193,10 +188,10 @@ Your branch is up to date with &#39;origin/main&#39;.
 
 Changes to be committed:
   (use &quot;git restore --staged &lt;file&gt;...&quot; to unstage)
-    new file:   README.md</code></pre>
+        new file:   README.md</code></pre>
 <p>Commit the staged files and check the status again:</p>
 <pre><code>$ git commit -m &#39;Added README.md&#39;
-[main 7d38744] Added README.md
+[main 64b8488] Added README.md
  1 file changed, 1 insertion(+)
  create mode 100644 README.md
 $ git status
@@ -209,171 +204,198 @@ nothing to commit, working tree clean</code></pre>
 <pre><code>$ git push
 Enumerating objects: 4, done.
 Counting objects: 100% (4/4), done.
-Delta compression using up to 4 threads
+Delta compression using up to 8 threads
 Compressing objects: 100% (2/2), done.
-Writing objects: 100% (3/3), 298 bytes | 298.00 KiB/s, done.
-Total 3 (delta 1), reused 0 (delta 0)
+Writing objects: 100% (3/3), 299 bytes | 299.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
 remote: Resolving deltas: 100% (1/1), completed with 1 local object.
 To https://github.com/fcbstudent/practical3
-   1a28e38..7d38744  main -&gt; main</code></pre>
-<p>If this last step has been successful, you should be able to see the new file and actually its contents as shown here below (a <code>README.md</code> file at the root of a GitHub repo has a special <a href="https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/about-readmes">treatment</a> in the GitHub page of the repo).</p>
+   0cd8cf9..64b8488  main -&gt; main</code></pre>
+<p>If this last step has been successful, you should be able to see the new file after reloading the webpage of GitHub, and actually its contents as shown here below (a <code>README.md</code> file at the root of a GitHub repo has a special <a href="https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/about-readmes">treatment</a> in the GitHub page of the repo).</p>
 <p><img src="./GHnewrepo4.png" /></p>
 <h1 id="pull-changes-from-github">Pull changes from GitHub</h1>
 <p>You have your initial copy of the GitHub repo at <code>~/practical3</code> and a modified copy at <code>~/practical3copy</code>, where the latter has been synchronized with the remote GitHub repo. Now, let’s see how could we update (<em>pull</em> in Git terminology) our initial copy with the latest changes made in the second copy of our repo. First enter the directory of the initial copy of the GitHub repo (here we assume it was created at the <em>home</em> directory) and verify it lacks the last file <code>README.md</code> we have added to the GitHub repo:</p>
 <pre><code>$ cd
 $ cd practical3
 $ ls
-catalunya_setmanal.csv           comarques_setmanal.csv
-catalunya_setmanal_geriatric.csv</code></pre>
+mostres_analitzades.csv     virus_detectats.csv
+mostres_analitzades_bcn.csv</code></pre>
 <p>Second, <em>pull</em> the changes from GitHub and verify the new file <code>README.md</code> has been added to this copy of the GitHub repo:</p>
 <pre><code>$ git pull
 remote: Enumerating objects: 4, done.
 remote: Counting objects: 100% (4/4), done.
 remote: Compressing objects: 100% (1/1), done.
 remote: Total 3 (delta 1), reused 3 (delta 1), pack-reused 0
-Unpacking objects: 100% (3/3), done.
+Unpacking objects: 100% (3/3), 279 bytes | 93.00 KiB/s, done.
 From https://github.com/fcbstudent/practical3
-   1a28e38..7d38744  main       -&gt; origin/main
-Updating 1a28e38..7d38744
+   0cd8cf9..64b8488  main       -&gt; origin/main
+Updating 0cd8cf9..64b8488
 Fast-forward
  README.md | 1 +
  1 file changed, 1 insertion(+)
  create mode 100644 README.md
-messi:practical3 robert$ ls
-README.md                        catalunya_setmanal_geriatric.csv
-catalunya_setmanal.csv           comarques_setmanal.csv</code></pre>
-<p>In general, you will not work with two local copies of the same GitHub repo in the same computer. We have used these two copies here only to illustrate how to <em>clone</em> a remote repo, and <em>push</em> and <em>pull</em> changes from that repo. The main utility of these actions is when either you work in two or more computers and need to synchronize your local copies of the GitHub repo, or you are working with collaborators that all update the same GitHub repo.</p>
+$ ls
+README.md                   mostres_analitzades_bcn.csv
+mostres_analitzades.csv     virus_detectats.csv</code></pre>
+<p>In general, you will not work with two local copies of the same GitHub repo in the same computer. <strong>We have used these two copies here only to illustrate</strong> how to <em>clone</em> a remote repo, and <em>push</em> and <em>pull</em> changes from that repo. The main utility of these actions is when either you work in two or more computers and need to synchronize your local copies of the GitHub repo, or you are working with collaborators that all update the same GitHub repo.</p>
 <h1 id="undo-changes-in-your-local-git-repo">Undo changes in your local Git repo</h1>
 <p>One of the great things about working with a version-control system is the ability to undo changes, reverting to some previous state of your files. This functionality, however, only applies to changes that have been staged and committed to the Git database. For this reason, it is important and useful to commit your changes often. Depending on the kind change you want to undo, the command to undo that change will be different. Here we cover a few cases:</p>
 <ul>
 <li><p><strong>Restore a deleted file.</strong> There are several options depending on the moment in which you deleted the file:</p>
 <ol type="1">
-<li><p>The file was deleted before or after the deletion was staged, but the deletion was not commited to the Git database. We illustrate here this case by removing the file <code>comarques_setmanal.csv</code> and immediately restoring it again:</p>
-<pre><code>$ rm comarques_setmanal.csv
+<li><p>The file was deleted before or after the deletion was staged, but the deletion was not commited to the Git database. We illustrate here this case by removing the file <code>mostres_analitzades.csv</code> and immediately restoring it again:</p>
+<pre><code>$ rm mostres_analitzades.csv
 $ ls
-catalunya_setmanal.csv  catalunya_setmanal_geriatric.csv
+README.md                   virus_detectats.csv
+mostres_analitzades_bcn.csv
 $ git status
 On branch main
+Your branch is up to date with &#39;origin/main&#39;.
+
 Changes not staged for commit:
   (use &quot;git add/rm &lt;file&gt;...&quot; to update what will be committed)
   (use &quot;git restore &lt;file&gt;...&quot; to discard changes in working directory)
-  deleted:    comarques_setmanal.csv
+  deleted:    mostres_analitzades.csv
 
 no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
 
-$ git checkout HEAD comarques_setmanal.csv ## &lt;-- RESTORING GIT COMMAND
-Updated 1 path from 87afcdd
+$ git checkout HEAD mostres_analitzades.csv ## &lt;-- RESTORING GIT COMMAND
+Updated 1 path from 7b1b617
 $ ls
-catalunya_setmanal.csv comarques_setmanal.csv</code></pre></li>
-<li><p>After the file was deleted, that deletion was staged and commited to the Git database and no other commits were introduced. Let’s illustrate it again removing the file <code>comarques_setmanal.csv</code>, but this time staging and commiting that change:</p>
-<pre><code>$ rm comarques_setmanal.csv
+README.md                   mostres_analitzades_bcn.csv
+mostres_analitzades.csv     virus_detectats.csv</code></pre></li>
+<li><p>After the file was deleted, that deletion was staged and commited to the Git database and no other commits were introduced. Let’s illustrate it again removing the file <code>mostres_analitzades.csv</code>, but this time staging and commiting that change:</p>
+<pre><code>$ rm mostres_analitzades.csv
 $ git add .
-$ git commit -m &#39;Removed comarques_setmanal.csv&#39;
-[main 6f624bc] Removed comarques_setmanal.csv
- 1 file changed, 48637 deletions(-)
- delete mode 100644 comarques_setmanal.csv
+$ git commit -m &#39;Removed mostres_analitzades.csv&#39;
+[main 7946ebf] Removed mostres_analitzades.csv
+ 1 file changed, 14613 deletions(-)
+ delete mode 100644 mostres_analitzades.csv
 $ ls
-catalunya_setmanal.csv  catalunya_setmanal_geriatric.csv
+README.md                   virus_detectats.csv
+mostres_analitzades_bcn.csv
 $ git status
 On branch main
+Your branch is ahead of &#39;origin/main&#39; by 1 commit.
+  (use &quot;git push&quot; to publish your local commits)
+
 nothing to commit, working tree clean
 $ git reset HEAD~1                         ## &lt;-- RESTORING GIT COMMAND
 Unstaged changes after reset:
-D comarques_setmanal.csv
+D       mostres_analitzades.csv
 $ git status
 On branch main
 Changes not staged for commit:
   (use &quot;git add/rm &lt;file&gt;...&quot; to update what will be committed)
   (use &quot;git restore &lt;file&gt;...&quot; to discard changes in working directory)
-  deleted:    comarques_setmanal.csv
+  deleted:          mostres_analitzades.csv 
 
 no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)</code></pre>
-<p>The Git command <code>git reset HEAD~1</code> reverts the deletion commit leaving it as an unstaged change and therefore, you should still apply the previous option 1 above to recover the file.</p></li>
-<li><p>After the file was deleted, that deletion was staged and commited to the Git database and afterwards other commits were also introduced. Let’s illustrate it again removing the file <code>comarques_setmanal.csv</code>, but this time staging and commiting that change and staging and commiting one further change:</p>
-<pre><code>$ rm comarques_setmanal.csv
-$ git add .
-$ git commit -m &#39;Removed comarques_setmanal.csv&#39;
-[main 6f624bc] Removed comarques_setmanal.csv
- 1 file changed, 48637 deletions(-)
- delete mode 100644 comarques_setmanal.csv
+<p>The Git command <code>git reset HEAD~1</code> reverts the deletion commit leaving it as an unstaged change and therefore, you should still apply the previous option 1 above to recover the file:</p>
+<pre><code>$ git checkout HEAD mostres_analitzades.csv ## &lt;-- RESTORING GIT COMMAND
+Updated 1 path from 7b1b617
 $ ls
-catalunya_setmanal.csv  catalunya_setmanal_geriatric.csv
+README.md                   mostres_analitzades_bcn.csv
+mostres_analitzades.csv     virus_detectats.csv</code></pre></li>
+<li><p>After the file was deleted, that deletion was staged and commited to the Git database and afterwards other commits were also introduced. Let’s illustrate it again removing the file <code>mostres_analitzades.csv</code>, but this time staging and commiting that change and staging and commiting one further change:</p>
+<pre><code>$ rm mostres_analitzades.csv
+$ git add .
+$ git commit -m &#39;Removed mostres_analitzades.csv&#39;
+[main 588acf0] Removed mostres_analitzades.csv
+ 1 file changed, 14613 deletions(-)
+ delete mode 100644 mostres_analitzades.csv
+$ ls
+README.md                   virus_detectats.csv
+mostres_analitzades_bcn.csv
 $ git status
 On branch main
+Your branch is ahead of &#39;origin/main&#39; by 1 commit.
+  (use &quot;git push&quot; to publish your local commits)
+
 nothing to commit, working tree clean
-$ head catalunya_setmanal.csv &gt; catalunya_setmanal_head.csv
+$ head virus_detectats.csv &gt; virus_detectats_head.csv
 $ ls
-catalunya_setmanal.csv            catalunya_setmanal_head.csv
-catalunya_setmanal_geriatric.csv
+README.md                   virus_detectats.csv
+mostres_analitzades_bcn.csv virus_detectats_head.csv
 $ git add .
-$ git commit -m &#39;Added catalunya_setmanal_head.csv&#39;
-[main 3dae07e] Added catalunya_setmanal_head.csv
+$ git commit -m &#39;Added virus_detectats_head.csv&#39;
+[main cdc101b] Added virus_detectats_head.csv
  1 file changed, 10 insertions(+)
- create mode 100644 catalunya_setmanal_head.csv</code></pre>
+ create mode 100644 virus_detectats_head.csv</code></pre>
 <p>At this point we should look up the <a href="https://git-scm.com/book/en/v2/Git-Tools-Revision-Selection"><em>commit hash</em></a> of the change that removed the file, using the command <code>git log -- removedfilename</code>:</p>
-<pre><code>$ git log -- comarques_setmanal.csv
-commit 1233328491018e328b7c132fdce0b2e84ce5228d
-Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
-Date:   Thu Oct 7 19:11:11 2021 +0200
+<pre><code>$ git log -- mostres_analitzades.csv
+commit 588acf0ecace42d0b53cb00b71bcc500f3fd4aba
+Author: Robert Castelo &lt;robert.castelo@upf.edu&gt;
+Date:   Fri Oct 6 19:36:46 2023 +0200
 
-Removed comarques_setmanal.csv
+    Removed mostres_analitzades.csv
 
-commit 6ad741d9bb260144bad2be3f533ab7ade47111ab
-Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
-Date:   Thu Oct 7 18:30:43 2021 +0200
+commit 3a7b39e619809318a9076e38033ba226ccd60e80
+Author: Robert Castelo &lt;robert.castelo@upf.edu&gt;
+Date:   Fri Oct 6 18:55:51 2023 +0200
 
-First commit.</code></pre>
+    First commit</code></pre>
 <p>Then, check out the file from the commit before the one that deleted it using the command <code>git checkout commithash~1 -- removedfilename</code>:</p>
-<pre><code>$ git checkout 1233328491018e328b7c132fdce0b2e84ce5228d~1 -- comarques_setmanal.csv
+<pre><code>$ git checkout checkout 588acf0ecace42d0b53cb00b71bcc500f3fd4aba~1 -- mostres_analitzades.csv
 $ ls
-catalunya_setmanal.csv            catalunya_setmanal_head.csv
-catalunya_setmanal_geriatric.csv  comarques_setmanal.csv</code></pre>
+README.md                   virus_detectats.csv
+mostres_analitzades.csv     virus_detectats_head.csv
+mostres_analitzades_bcn.csv</code></pre>
 <p>Here the characters <code>~1</code> at the end of the commit hash indicate Git to go exactly one commit before the given commit hash. Finally, you should stage and commit the recovered file since it will appear to Git as a new file:</p>
 <pre><code>$ git status
 On branch main
 Changes to be committed:
   (use &quot;git restore --staged &lt;file&gt;...&quot; to unstage)
-        new file:   comarques_setmanal.csv
+        new file:   mostres_analitzades.csv
 
 $ git add .
-$ git commit -m &#39;Added back comarques_setmanal.csv&#39;
-[main ed15028] Added back comarques_setmanal.csv
- 1 file changed, 48637 insertions(+)
- create mode 100644 comarques_setmanal.csv
+$ git commit -m &#39;Added back mostres_analitzades.csv&#39;
+[main 85448e7] Added back mostres_analitzades.csv
+ 1 file changed, 14613 insertions(+)
+ create mode 100644 mostres_analitzades.csv
 $ git status
 On branch main
+Your branch is ahead of &#39;origin/main&#39; by 3 commits.
+  (use &quot;git push&quot; to publish your local commits)
+
 nothing to commit, working tree clean</code></pre>
 <p>If you examine the whole history of this example, you should find the commits corresponding to the deletion, the addition of a new file and the recovery of the deleted file:</p>
 <pre><code>$ git log
-commit ed150284bb5753d5814224b287f88c32f4fa1b3b (HEAD -&gt; main)
-Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
-Date:   Thu Oct 7 19:21:21 2021 +0200
+commit 85448e7f651826dc33cee9b40b8f68e57f547bd5 (HEAD -&gt; main)
+Author: Robert Castelo &lt;robert.castelo@upf.edu&gt;
+Date:   Fri Oct 6 19:47:08 2023 +0200
 
-    Added back comarques_setmanal.csv
+    Added back mostres_analitzades.csv
 
-commit 3dae07e590198c545e0f7a96fa54fe75d3454adf
-Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
-Date:   Thu Oct 7 19:12:15 2021 +0200
+commit cdc101bb0c70a2468832af30b2290918e59f4bb5
+Author: Robert Castelo &lt;robert.castelo@upf.edu&gt;
+Date:   Fri Oct 6 19:40:10 2023 +0200
 
-    Added catalunya_setmanal_head.csv
+    Added virus_detectats_head.csv
 
-commit 1233328491018e328b7c132fdce0b2e84ce5228d
-Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
-Date:   Thu Oct 7 19:11:11 2021 +0200
+commit 588acf0ecace42d0b53cb00b71bcc500f3fd4aba
+Author: Robert Castelo &lt;robert.castelo@upf.edu&gt;
+Date:   Fri Oct 6 19:36:46 2023 +0200
 
-    Removed comarques_setmanal.csv
+    Removed mostres_analitzades.csv
 
-commit 10bf64c16b91ea309bbca3e27a8a1a439f3c47d4
-Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
-Date:   Thu Oct 7 18:35:44 2021 +0200
+commit 64b8488694d676dbe785b8e54dc17e3ec60bd07e (origin/main)
+Author: Robert Castelo &lt;robert.castelo@upf.edu&gt;
+Date:   Fri Oct 6 19:22:38 2023 +0200
 
-    Added catalunya_setmanal_geriatric.csv
+    Added README.md
 
-commit 6ad741d9bb260144bad2be3f533ab7ade47111ab
-Author: [rcastelo] &lt;[robert.castelo@upf.edu]&gt;
-Date:   Thu Oct 7 18:30:43 2021 +0200
+commit 0cd8cf9186004455bd548a7b91f5c20604be6ea9
+Author: Robert Castelo &lt;robert.castelo@upf.edu&gt;
+Date:   Fri Oct 6 18:58:32 2023 +0200
 
-    First commit.</code></pre></li>
+    Added Barcelona subset of the data
+
+commit 3a7b39e619809318a9076e38033ba226ccd60e80
+Author: Robert Castelo &lt;robert.castelo@upf.edu&gt;
+Date:   Fri Oct 6 18:55:51 2023 +0200
+
+    First commit</code></pre></li>
 </ol></li>
 <li><p><strong>Restore a specific version of a file.</strong> There are several options depending on the state of the change you want to revert.</p>
 <ol type="1">
