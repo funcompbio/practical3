@@ -685,6 +685,29 @@ command to undo that change will be different. Here we cover a few cases:
 
         nothing to commit, working tree clean
         ```
+    In this example we have a copy of our repo in GitHub, and for that reason
+    the status command keeps tellings us that our local copy has 3 commits that
+    are not yet synchronized with the remote repo (_Your branch is ahead of
+    'origin/main' by 3 commits_). We can synchronize these 3 commits with the
+    remote repo by doing _git push_:
+
+        ```
+        $ git push
+        Enumerating objects: 8, done.
+        Counting objects: 100% (8/8), done.
+        Delta compression using up to 8 threads
+        Compressing objects: 100% (7/7), done.
+        Writing objects: 100% (7/7), 1.01 KiB | 1.01 MiB/s, done.
+        Total 7 (delta 3), reused 0 (delta 0), pack-reused 0
+        remote: Resolving deltas: 100% (3/3), completed with 1 local object.
+        To https://github.com/fcbstudent/practical3.git
+           64b8488..85448e7  main -> main
+        $ git status
+        On branch main
+        Your branch is up to date with 'origin/main'.
+        nothing to commit, working tree clean
+        ```
+
     If you examine the whole history of this example, you should find
     the commits corresponding to the deletion, the addition of a new file
     and the recovery of the deleted file:
@@ -733,68 +756,110 @@ command to undo that change will be different. Here we cover a few cases:
 
   1. The modified file has not been staged and commited to the Git database. We
     illustrate here this case by adding the last 10 lines from the file
-    `catalunya_setmanal.csv` to the end of the file
-    `catalunya_setmanal_head.csv`:
+    `virus_detectats.csv` to the end of the file `virus_detectats_head.csv`:
 
         ```
-        $ tail catalunya_setmanal.csv >> catalunya_setmanal_head.csv
-        $ wc -l catalunya_setmanal_head.csv
-        20 catalunya_setmanal_head.csv
+        $ wc -l virus_detectats_head.csv      ## WE HAD 10 LINES
+              10 virus_detectats_head.csv
+        $ tail virus_detectats.csv >> virus_detectats_head.csv
+        $ wc -l virus_detectats_head.csv      ## NOW WE HAVE 20 LINES
+              20 catalunya_setmanal_head.csv
         $ git status
         On branch main
+        Your branch is up to date with 'origin/main'.
+
         Changes not staged for commit:
           (use "git add <file>..." to update what will be committed)
           (use "git restore <file>..." to discard changes in working directory)
-          modified:   catalunya_setmanal_head.csv
+                modified:   virus_detectats_head.csv
 
         no changes added to commit (use "git add" and/or "git commit -a")
-        $ git checkout catalunya_setmanal_head.csv ## <-- RESTORING COMMAND
+        $ git checkout virus_detectats_head.csv ## <-- RESTORING COMMAND
         Updated 1 path from the index
-        $ wc -l catalunya_setmanal_head.csv
-        10 catalunya_setmanal_head.csv
+        $ wc -l virus_detectats_head.csv      ## WE HAVE THE ORIGINAL 10 LINES AGAIN
+              10 virus_detectats_head.csv
         $ git status
         On branch main
+        ur branch is up to date with 'origin/main'.
+
         nothing to commit, working tree clean
         ```
   2. The modified file has been staged, but not commited to the Git database.
     We illustrate this case with the same modification as the previous one.
 
         ```
-        $ tail catalunya_setmanal.csv >> catalunya_setmanal_head.csv
-        $ wc -l catalunya_setmanal_head.csv
-        20 catalunya_setmanal_head.csv
+        $ wc -l virus_detectats_head.csv      ## WE HAD 10 LINES
+              10 virus_detectats_head.csv
+        $ tail virus_detectats.csv >> virus_detectats_head.csv
+        $ wc -l virus_detectats_head.csv      ## NOW WE HAVE 20 LINES
+              20 virus_detectats_head.csv
         $ git add .
         $ git status
         On branch main
+        Your branch is up to date with 'origin/main'.
+
         Changes to be committed:
           (use "git restore --staged <file>..." to unstage)
-                modified:   catalunya_setmanal_head.csv
-        $ git restore --staged catalunya_setmanal_head.csv ## <-- RESTORING COMMAND
-        $ wc -l catalunya_setmanal_head.csv
-        20 catalunya_setmanal_head.csv
+                modified:   virus_detectats_head.csv
+        $ git restore --staged virus_detectats_head.csv ## <-- RESTORING COMMAND
+        $ wc -l virus_detectats_head.csv      ## WE STILL HAVE 20 LINES
+              20 virus_detectats_head.csv
         $ git status
         On branch main
+        Your branch is up to date with 'origin/main'.
+
         Changes not staged for commit:
           (use "git add <file>..." to update what will be committed)
           (use "git restore <file>..." to discard changes in working directory)
-          modified:   catalunya_setmanal_head.csv
+                modified:   virus_detectats_head.csv
 
         no changes added to commit (use "git add" and/or "git commit -a")
         ```
     Note that the command `git restore --staged filename` unstages the file,
     but the modifications remain. Therefore, if you want to revert those
-    modifications, you should follow the previous option 1.
+    modifications, you should follow the previous option 1 to restore the
+    original unmodified version of the file:
+
+        ```
+        $ git checkout virus_detectats_head.csv ## <-- RESTORING COMMAND
+        Updated 1 path from the index
+        $ wc -l virus_detectats_head.csv      ## WE HAVE THE ORIGINAL 10 LINES AGAIN
+              10 virus_detectats_head.csv
+        $ git status
+        On branch main
+        Your branch is up to date with 'origin/main'.
+
+        nothing to commit, working tree clean
+        ```
 
   3. The modified file has been staged and commited to the Git database.
     We illustrate this case with the same modification as the previous ones.
 
         ```
-        $ tail catalunya_setmanal.csv >> catalunya_setmanal_head.csv
+        $ wc -l virus_detectats_head.csv      ## WE HAD 10 LINES
+              10 virus_detectats_head.csv
+        $ tail virus_detectats.csv >> virus_detectats_head.csv
+        $ wc -l virus_detectats_head.csv      ## NOW WE HAVE 20 LINES
+              20 virus_detectats_head.csv
+        $ git status
+        On branch main
+        Your branch is up to date with 'origin/main'.
+
+        Changes not staged for commit:
+          (use "git add <file>..." to update what will be committed)
+          (use "git restore <file>..." to discard changes in working directory)
+                modified:   virus_detectats_head.csv
+
+        no changes added to commit (use "git add" and/or "git commit -a")
         $ git add .
-        $ git commit -m 'Modified catalunya_setmanal_head.csv'
+        $ git commit -m 'Modified virus_detectats_head.csv'
+        [main f5ee71e] Modified virus_detectats_head.csv
          1 file changed, 10 insertions(+)
         $ git status
         On branch main
+        Your branch is ahead of 'origin/main' by 1 commit.
+          (use "git push" to publish your local commits)
+
         nothing to commit, working tree clean
         ```
     In this case, however, we should look up the
@@ -803,26 +868,26 @@ command to undo that change will be different. Here we cover a few cases:
     `git log --follow -- modifiedfilename`:
 
         ```
-        $ git log --follow -- catalunya_setmanal_head.csv
-        commit 0621dcc7a7642ca264227808217bb2cbd2248158 (HEAD -> main)
-        Author: [rcastelo] <[robert.castelo@upf.edu]>
-        Date:   Fri Oct 8 16:52:29 2021 +0200
+        $ git log --follow -- virus_detectats_head.csv
+        commit f5ee71ee6e4c4cb2bb9bd0070768d3c97f599de7 (HEAD -> main)
+        Author: Robert Castelo <robert.castelo@upf.edu>
+        Date:   Sun Oct 8 19:04:58 2023 +0200
 
-            Modified catalunya_setmanal_head.csv
+            Modified virus_detectats_head.csv
 
-        commit 3dae07e590198c545e0f7a96fa54fe75d3454adf
-        Author: [rcastelo] <[robert.castelo@upf.edu]>
-        Date:   Thu Oct 7 19:12:15 2021 +0200
+        commit cdc101bb0c70a2468832af30b2290918e59f4bb5
+        Author: Robert Castelo <robert.castelo@upf.edu>
+        Date:   Fri Oct 6 19:40:10 2023 +0200
 
-            Added head of catalunya_setmanal.csv
+            Added virus_detectats_head.csv
         ```
     Then, we can finally revert the modified file to the revision
     before the modification as follows:
 
         ```
-        $ git restore --source 0621dcc7a7642ca264227808217bb2cbd2248158~1 catalunya_setmanal_head.csv
-        $ wc -l catalunya_setmanal_head.csv
-        10 catalunya_setmanal_head.csv
+        $ git restore --source f5ee71ee6e4c4cb2bb9bd0070768d3c97f599de7~1 virus_detectats_head.csv
+        $ wc -l virus_detectats_head.csv      ## WE HAVE THE ORIGINAL 10 LINES AGAIN
+              10 catalunya_setmanal_head.csv
         ```
     Here the characters `~1` at the end of the commit hash indicate Git to
     go exactly one commit before the given commit hash. Note that now the
@@ -833,16 +898,19 @@ command to undo that change will be different. Here we cover a few cases:
         ```
         $ git status
         On branch main
+        Your branch is ahead of 'origin/main' by 1 commit.
+          (use "git push" to publish your local commits)
+
         Changes not staged for commit:
           (use "git add <file>..." to update what will be committed)
           (use "git restore <file>..." to discard changes in working directory)
-          modified:   catalunya_setmanal_head.csv
+                modified:   virus_detectats_head.csv
 
         no changes added to commit (use "git add" and/or "git commit -a")
         $ git add .
-        $ git commit -m 'Restored previous version of catalunya_setmanal_head.csv'
-        [main f37ad38] Restored previous version of catalunya_setmanal_head.csv
-        1 file changed, 10 deletions(-)
+        $ git commit -m 'Restored previous version of virus_detectats_head.csv'
+        [main 3c4a3a5] Restored previous version of virus_detectats_head.csv
+         1 file changed, 10 deletions(-)
         ```
     If you examine the whole history of this example, you should find
     the commits corresponding to the modification and the addition of the
@@ -850,46 +918,52 @@ command to undo that change will be different. Here we cover a few cases:
 
         ```
         $ git log
-        commit f37ad38fceaedd478aec1d41de37b55e0e4612a7
-        Author: [rcastelo] <[robert.castelo@upf.edu]>
-        Date:   Fri Oct 8 17:12:48 2021 +0200
+        commit 3c4a3a5375f743fb93e35a05c3de03970ae5c986 (HEAD -> main)
+        Author: Robert Castelo <robert.castelo@upf.edu>
+        Date:   Sun Oct 8 19:11:38 2023 +0200
 
-            Restored previous version of catalunya_setmanal_head.csv
+            Restored previous version of virus_detectats_head.csv
 
-        commit 0621dcc7a7642ca264227808217bb2cbd2248158
-        Author: [rcastelo] <[robert.castelo@upf.edu]>
-        Date:   Fri Oct 8 16:52:29 2021 +0200
+        commit f5ee71ee6e4c4cb2bb9bd0070768d3c97f599de7
+        Author: Robert Castelo <robert.castelo@upf.edu>
+        Date:   Sun Oct 8 19:04:58 2023 +0200
 
-            Modified catalunya_setmanal_head.csv
+            Modified virus_detectats_head.csv
 
-        commit ed150284bb5753d5814224b287f88c32f4fa1b3b (HEAD -> main)
-        Author: [rcastelo] <[robert.castelo@upf.edu]>
-        Date:   Thu Oct 7 19:21:21 2021 +0200
+        commit 85448e7f651826dc33cee9b40b8f68e57f547bd5 (HEAD -> main)
+        Author: Robert Castelo <robert.castelo@upf.edu>
+        Date:   Fri Oct 6 19:47:08 2023 +0200
 
-            Added back comarques_setmanal.csv
+            Added back mostres_analitzades.csv
 
-        commit 3dae07e590198c545e0f7a96fa54fe75d3454adf
-        Author: [rcastelo] <[robert.castelo@upf.edu]>
-        Date:   Thu Oct 7 19:12:15 2021 +0200
+        commit cdc101bb0c70a2468832af30b2290918e59f4bb5
+        Author: Robert Castelo <robert.castelo@upf.edu>
+        Date:   Fri Oct 6 19:40:10 2023 +0200
 
-            Added catalunya_setmanal_head.csv
+            Added virus_detectats_head.csv
 
-        commit 1233328491018e328b7c132fdce0b2e84ce5228d
-        Author: [rcastelo] <[robert.castelo@upf.edu]>
-        Date:   Thu Oct 7 19:11:11 2021 +0200
+        commit 588acf0ecace42d0b53cb00b71bcc500f3fd4aba
+        Author: Robert Castelo <robert.castelo@upf.edu>
+        Date:   Fri Oct 6 19:36:46 2023 +0200
 
-            Removed comarques_setmanal.csv
+            Removed mostres_analitzades.csv
 
-        commit 10bf64c16b91ea309bbca3e27a8a1a439f3c47d4
-        Author: [rcastelo] <[robert.castelo@upf.edu]>
-        Date:   Thu Oct 7 18:35:44 2021 +0200
+        commit 64b8488694d676dbe785b8e54dc17e3ec60bd07e (origin/main)
+        Author: Robert Castelo <robert.castelo@upf.edu>
+        Date:   Fri Oct 6 19:22:38 2023 +0200
 
-            Added catalunya_setmanal_geriatric.csv
+            Added README.md
 
-        commit 6ad741d9bb260144bad2be3f533ab7ade47111ab
-        Author: [rcastelo] <[robert.castelo@upf.edu]>
-        Date:   Thu Oct 7 18:30:43 2021 +0200
+        commit 0cd8cf9186004455bd548a7b91f5c20604be6ea9
+        Author: Robert Castelo <robert.castelo@upf.edu>
+        Date:   Fri Oct 6 18:58:32 2023 +0200
 
-            First commit.
+            Added Barcelona subset of the data
+
+        commit 3a7b39e619809318a9076e38033ba226ccd60e80
+        Author: Robert Castelo <robert.castelo@upf.edu>
+        Date:   Fri Oct 6 18:55:51 2023 +0200
+
+            First commit
         ```
 
