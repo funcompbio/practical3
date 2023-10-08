@@ -763,7 +763,7 @@ command to undo that change will be different. Here we cover a few cases:
               10 virus_detectats_head.csv
         $ tail virus_detectats.csv >> virus_detectats_head.csv
         $ wc -l virus_detectats_head.csv      ## NOW WE HAVE 20 LINES
-              20 catalunya_setmanal_head.csv
+              20 virus_detectats_head.csv
         $ git status
         On branch main
         Your branch is up to date with 'origin/main'.
@@ -887,7 +887,7 @@ command to undo that change will be different. Here we cover a few cases:
         ```
         $ git restore --source f5ee71ee6e4c4cb2bb9bd0070768d3c97f599de7~1 virus_detectats_head.csv
         $ wc -l virus_detectats_head.csv      ## WE HAVE THE ORIGINAL 10 LINES AGAIN
-              10 catalunya_setmanal_head.csv
+              10 virus_detectats_head.csv
         ```
     Here the characters `~1` at the end of the commit hash indicate Git to
     go exactly one commit before the given commit hash. Note that now the
