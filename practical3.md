@@ -255,7 +255,7 @@ We illustrate such process using the previous local Git repo.
 To get started, log into your GitHub account, click on the plus sign on the
 top-right and select "New repository" from the pull-down menu.
 
-![](./GHnewrepo.png)
+![](./GHnewrepo1.png)
 
 In the next page, type `practical3` in the textbox under `Repository name`, select
 `Private` for the type of repository and press the button `Create repository`.
