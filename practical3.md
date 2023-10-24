@@ -655,7 +655,7 @@ command to undo that change will be different. Here we cover a few cases:
     using the command `git checkout commithash~1 -- removedfilename`:
 
         ```
-        $ git checkout checkout 588acf0ecace42d0b53cb00b71bcc500f3fd4aba~1 -- mostres_analitzades.csv
+        $ git checkout 588acf0ecace42d0b53cb00b71bcc500f3fd4aba~1 -- mostres_analitzades.csv
         $ ls
         README.md                   virus_detectats.csv
         mostres_analitzades.csv     virus_detectats_head.csv
