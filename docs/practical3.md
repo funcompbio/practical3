@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Practical 3
-lastupdate: October 6th, 2023
+lastupdate: January 13th, 2026
 permalink: /practical3/
 ---
 

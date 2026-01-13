@@ -29,11 +29,12 @@ and to the Git VCS software. If you are doing this practical in your own
 computer, please check the [setup](/setup/) webpage to make sure that you have
 access to some flavor of a Unix operating system, its CLI and the Git VCS.
 
-We will use the data files called `mostres_analitzades.csv` i
-`virus_detectats.csv` that were generated in the
-[first practical](/practical1/). If you don't have these files, please review
-that practical and generate them again. Once you have obtained those two files,
-copy them into a fresh new directory called `practical3`.
+We will use the data files called `mostres_analitzades.csv` and
+`virus_detectats.csv` downloaded and prepared in either
+[practical 1](/practical1/) or [practical 2](/practical 2/). If you don't have
+these files, please review one of those two practicals and generate them again.
+Once you have obtained those two files, copy them into a fresh new directory
+called `practical3`.
 
 # Setting up Git
 
@@ -58,8 +59,8 @@ $ git config --global user.name "XXXXX YYYY"
 $ git config --global user.email "ZZZZ@WWWW.UUUU"
 ```
 where `XXXXX` is your first name and `YYYYY` is your family name, while
-`ZZZZ@WWWW.UUUU` if you student UPF email address. Another handy option is to
-tell Git to store your GitHub credentials into a hidden file
+`ZZZZ@WWWW.UUUU` if you student UPF email address. Another handy additional
+instruction is to tell Git to store your GitHub credentials into a hidden file
 `~/.git-credentials` to avoid having to enter them each time you do an operation
 that requires them, such as _pushing_ your changes to a remote GitHub repo. To
 set up that option type on the shell
@@ -68,13 +69,19 @@ set up that option type on the shell
 $ git config --global credential.helper store
 ```
 
-It may be handy to set up your favorite text editor associated with Git, so that when
-Git requires you to write some text, your favorite text editor is launched. Please check
-the following [link](https://docs.github.com/en/free-pro-team@latest/github/using-git/associating-text-editors-with-git) to find out how to set your favorite text editor associated with Git. If you don't
-set up any text editor, it's likely that, when Git needs it, it will start a classical
-text editor, such as Vi or Emacs. In the case of Vi, to write you need first to press the
-key of letter 'i' and then you can type your text. Once you're finished, press Esc, colon (:) and
-type 'x' for save and quit.
+You will need to write a message associated with each commit you make to your
+Git repo. This can be done either in the command line with the `-m` option of
+the `git commit` command, or in a text editor that Git will launch for you. For
+that reason, it is useful to set up your favorite text editor associated with
+Git, so that when Git requires you to write some text, your favorite text
+editor is launched. Please check the documentation in the following
+[link](https://docs.github.com/en/get-started/git-basics/associating-text-editors-with-git)
+to find out how to set your favorite text editor associated with Git. If you
+do not set up any text editor, it iss likely that when Git needs it, it will
+start a classical text editor, such as Vi or Emacs. In the case of Vi, to write
+any text, you first need to press the key of the letter 'i' to start typing.
+Once you are finished typing the message, press the `Esc` key, type the colon
+character (`:`), and finally type 'x' for save and quit the Vi editor.
 
 To verify that you have set up your global configuration data correctly, please type:
 
@@ -89,7 +96,7 @@ $ git help
 $ git help command
 $ git command --help
 ```
-where `command` is one of Git's commands such as `add` or `checkout`.
+where `command` is one of Git's commands such as `add`, `commit` or `push`.
 
 # Setting up a personal access token in GitHub
 
