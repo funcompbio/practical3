@@ -31,7 +31,7 @@ access to some flavor of a Unix operating system, its CLI and the Git VCS.
 
 We will use the data files called `mostres_analitzades.csv` and
 `virus_detectats.csv` downloaded and prepared in either
-[practical 1](/practical1/) or [practical 2](/practical 2/). If you don't have
+[practical 1](/practical1/) or [practical 2](/practical2/). If you don't have
 these files, please review one of those two practicals and generate them again.
 Once you have obtained those two files, copy them into a fresh new directory
 called `practical3`.
